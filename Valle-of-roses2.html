@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valley of Roses | Floristeria</title>
+<style>
+:root{--primario:#103f34;--secundario:#E8F0EB;--fondo:#FAF7F2;--acento:#527c68;--claro:#b8d1bd;--blanco:#fff;--rojo:#103f34}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:var(--fondo);color:#1a1a1a;line-height:1.7;overflow-x:hidden}
+h1,h2,h3,h4{font-family:Georgia,serif;color:var(--primario)}
+button,input,textarea,select{font:inherit}
+header{background:var(--primario);padding:12px 4%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo img{width:70px;height:80px;object-fit:contain}
+.linea{height:65px;width:2px;background:var(--claro)}
+.nombre h1{color:#fff;font-size:30px;font-weight:normal;line-height:1}
+.nombre p{color:var(--claro);font-size:10px;letter-spacing:4px;margin-top:6px}
+.barra-busqueda{flex:1;max-width:320px;margin:0 15px;position:relative}
+.barra-busqueda input{width:100%;padding:10px 16px;border:none;border-radius:20px;background:rgba(255,255,255,.15);color:#fff;outline:none}
+.barra-busqueda input::placeholder{color:rgba(255,255,255,.7)}
+.resultados-busqueda{position:absolute;top:110%;left:0;right:0;background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);max-height:380px;overflow:auto;display:none;z-index:200;padding:6px}
+.resultados-busqueda.visible{display:block}
+.fila-busqueda{display:flex;gap:10px;align-items:center;padding:9px 8px;cursor:pointer;border-bottom:1px solid #f0f0f0;border-radius:8px}
+.fila-busqueda:last-child{border-bottom:0}
+.fila-busqueda:hover{background:#f7f7f7}
+.fila-busqueda img{width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0}
+.fila-busqueda-info{flex:1;min-width:0}
+.fila-busqueda-info b{font-size:13px;color:#111;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila-busqueda-info span{font-size:11px;color:#333;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila-busqueda-precio{font-size:13px;font-weight:bold;color:#103f34;white-space:nowrap}
+.fila-busqueda-vacio{padding:14px;text-align:center;font-size:13px;color:#333}
+.iconos{display:flex;align-items:center;gap:10px}
+.icono{width:44px;height:44px;border:1px solid var(--claro);border-radius:50%;background:transparent;color:#fff;display:flex;justify-content:center;align-items:center;cursor:pointer;position:relative;text-decoration:none}
+.icono:hover{background:var(--claro);color:var(--primario)}
+.icono svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.contador{position:absolute;top:-5px;right:-5px;background:var(--claro);color:var(--primario);font-size:10px;font-weight:bold;border-radius:50%;width:18px;height:18px;display:flex;justify-content:center;align-items:center}
+nav{background:#0c342b;padding:.7rem 3%;display:flex;justify-content:center;align-items:center;flex-wrap:wrap}
+nav a{color:#fff;text-decoration:none;padding:0 1.2rem;font-size:15px}
+nav a:hover{color:var(--claro)}
+.hero{background:#e7f0eb;padding:60px 5%}
+.hero-contenido{max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr auto;align-items:center;gap:40px}
+.etiqueta{color:#103f34;font-size:12px;font-weight:900;letter-spacing:3px}
+.hero h2{font-size:36px;line-height:1.2;margin:12px 0;color:#0a2e26}
+.hero p{color:#222;margin-bottom:22px;font-weight:500}
+/* ===== LOGO HERO UN POCO MAS GRANDE - CONFIGURADO ===== */
+.hero img.logo-hero{width:180px !important;max-width:180px !important;height:auto !important;object-fit:contain !important;border-radius:12px;display:block;margin:auto;flex-shrink:0}
+.btn{display:inline-block;background:var(--primario);color:#fff;padding:10px 20px;border:2px solid var(--primario);border-radius:30px;text-decoration:none;font-weight:bold;font-size:13px;cursor:pointer}
+.btn:hover{background:var(--acento);border-color:var(--acento)}
+.categorias{padding:35px 4% 45px;background:#fff;text-align:center}
+.titulo-seccion{font-size:25px;font-style:italic;margin-bottom:25px;color:#0a2e26}
+.lista-categorias{display:flex;gap:28px;overflow-x:auto;padding:10px 5px 18px;scroll-snap-type:x mandatory}
+.categoria{flex:0 0 105px;text-align:center;text-decoration:none;color:#1a1a1a;font-size:13px;font-weight:700;scroll-snap-align:start}
+.categoria img{width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.categoria span{display:block;margin-top:8px;color:#1a1a1a;font-weight:700}
+.mas-vendidos{background:#fff;padding:25px 4% 65px;text-align:center;overflow:hidden}
+.mas-vendidos h3{font-size:25px;font-style:italic;margin-bottom:8px;color:#0a2e26}
+.mas-vendidos-sub{font-size:13px;color:#222;margin-bottom:18px;font-weight:600}
+.cinta-mas-vendidos{overflow:hidden;width:100%;max-width:760px;margin:auto}
+.cinta-track{display:flex;gap:18px;padding:10px 2px 20px;transition:transform 1.2s ease}
+.cinta-track .producto{flex:0 0 calc(50% - 9px);min-width:0}
+.puntos-2en2{display:flex;justify-content:center;gap:8px;margin-top:2px}
+.puntos-2en2 span{width:9px;height:9px;border-radius:50%;background:#ddd;display:block;transition:all .3s}
+.puntos-2en2 span.activo{background:var(--primario);width:22px;border-radius:10px}
+.producto{background:#fff;border:1px solid #eee;border-radius:15px;overflow:hidden;box-shadow:0 5px 18px rgba(16,63,52,.07)}
+.producto img{width:100%;height:270px;object-fit:cover;background:#fff}
+.producto-info{padding:15px}
+.producto-info h4{font-size:16px;margin-bottom:8px;color:#111}
+.producto-info p{color:#222;font-size:13px;margin-bottom:10px;font-weight:500}
+.detalle-corto{background:#f2f2f2;border-radius:8px;padding:9px 10px;font-size:12px;color:#1a1a1a;line-height:1.6;margin-bottom:10px;text-align:left;font-weight:500}
+.detalle-corto b{color:#000}
+.ver-detalles{color:#103f34;font-size:12px;font-weight:bold;text-decoration:underline;cursor:pointer;display:inline-block;margin-bottom:8px}
+.precio{display:block;font-size:20px;color:#0a2e26;font-weight:900;margin:10px 0}
+.comprar{width:100%;background:var(--rojo);border:none;color:#fff;padding:12px;border-radius:25px;cursor:pointer}
+.comprar:hover{background:#0c342b}
+.bienvenida{background:var(--fondo);padding:65px 6% 35px;text-align:center}
+.bienvenida h2{font-size:28px;font-style:italic;margin-bottom:15px;color:#0a2e26}
+.bienvenida p{max-width:690px;margin:auto;color:#222;font-size:15px;line-height:1.9;font-weight:500}
+.servicios{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;padding:35px 8% 60px;background:var(--fondo);text-align:center}
+.servicio-icono{font-size:35px;color:var(--acento);margin-bottom:8px}
+.servicio h4{font-size:15px;margin-bottom:4px;color:#111}
+.servicio p{font-size:13px;color:#222;font-weight:500}
+#paginaCatalogo,#paginaProducto{display:none;background:var(--fondo);min-height:80vh}
+.catalogo-portada{background:#e7f0eb;padding:40px 6%;text-align:center}
+.catalogo-portada h2{font-size:32px;margin:8px 0}
+.catalogo-portada p{color:#222;font-weight:500}
+.volver{display:inline-block;margin-top:15px;color:var(--primario);text-decoration:none;font-weight:bold}
+.catalogo-contenido{max-width:1200px;margin:auto;padding:40px 5% 70px}
+.catalogo-cabecera{text-align:center;margin-bottom:30px}
+.catalogo-cabecera h3{font-size:25px;margin-bottom:8px}
+.catalogo-cabecera p{color:#222;font-weight:500}
+.filtros{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.filtros button{border:1px solid var(--primario);background:#fff;color:var(--primario);padding:9px 18px;border-radius:25px;cursor:pointer}
+.filtros button:hover,.filtros button.activo{background:var(--primario);color:#fff}
+.catalogo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+.catalogo-grid .producto{flex:none}
+.tarjeta{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(16,63,52,.08)}
+.tarjeta img{width:100%;height:245px;object-fit:cover;background:#fff}
+.tarjeta-info{padding:17px}
+.tarjeta-info h4{font-size:17px;margin-bottom:7px;color:#111}
+.tarjeta-info p{font-size:13px;color:#222;min-height:44px;font-weight:500}
+.detalle-contenido{max-width:1150px;margin:auto;padding:45px 5% 70px}
+.detalle-grid{display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:start}
+.detalle-imagen{background:#fff;border-radius:16px;padding:15px;box-shadow:0 5px 20px rgba(16,63,52,.08)}
+.detalle-imagen img{width:100%;height:480px;object-fit:contain;border-radius:10px}
+.detalle-info h2{font-size:29px;line-height:1.3;margin-bottom:10px}
+.detalle-precio{font-size:29px;color:var(--acento);font-weight:bold}
+.detalle-etiquetas{display:flex;gap:10px;flex-wrap:wrap;padding:15px 0;border-top:1px solid #e5e8e4;border-bottom:1px solid #e5e8e4;margin:15px 0}
+.etiqueta-producto{background:#edf1ed;color:#222;border-radius:20px;padding:6px 13px;font-size:12px;font-weight:600}
+.detalle-info h3{font-family:Arial;font-size:16px;margin:20px 0 12px}
+.campo{margin:15px 0}
+.campo label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px;color:#111}
+.campo input,.campo textarea,.campo select{width:100%;border:1px solid #d9ded9;background:#fff;border-radius:9px;padding:12px;outline:none;color:#111}
+.campo textarea{height:100px;resize:vertical}
+.campo input:focus,.campo textarea:focus,.campo select:focus{border-color:var(--acento)}
+.opcion-linea{font-size:13px;display:flex;gap:8px;align-items:center;margin:8px 0;color:#222}
+.opcion-linea input{accent-color:var(--primario)}
+.cantidad-control{display:flex;align-items:center;gap:12px;margin:18px 0}
+.cantidad-control button{width:38px;height:38px;border:1px solid #d8ded9;background:#fff;border-radius:50%;cursor:pointer;font-size:20px}
+.cantidad-control span{min-width:48px;text-align:center;padding:8px 12px;background:#fff;border:1px solid #e0e5e0;border-radius:9px}
+.botones-compra{display:grid;gap:12px}
+.btn-comprar{background:var(--rojo);color:#fff;border:none;border-radius:28px;padding:14px;cursor:pointer;font-weight:bold;font-size:15px}
+.btn-comprar:hover{background:#0c342b}
+.detalles-producto{background:#fff;border:1px solid #eee;border-radius:12px;padding:18px;margin-top:18px}
+.detalles-producto h3{margin-bottom:10px}
+.detalles-producto ul{list-style:none}
+.detalles-producto li{font-size:13px;color:#222;padding:7px 0;border-bottom:1px solid #f0f0f0;display:flex;gap:8px;font-weight:500}
+.detalles-producto li:last-child{border-bottom:0}
+.detalles-producto li b{min-width:90px;color:#000}
+.descripcion-producto{margin-top:20px;background:#fff;padding:25px;border-radius:12px;color:#222;font-size:14px;line-height:1.9;font-weight:500}
+.descripcion-producto h3{margin-bottom:12px}
+.aviso-productos{margin-top:20px;background:#e8f0eb;border-left:4px solid var(--acento);padding:18px;border-radius:8px;font-size:13px;color:#222;font-weight:500}
+.fondo-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;align-items:center;justify-content:center;padding:15px}
+.fondo-modal.abierto{display:flex}
+.modal{background:#fff;width:100%;max-width:650px;max-height:85vh;overflow:auto;border-radius:15px;padding:25px}
+.modal-cabecera{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e5e5e5;padding-bottom:15px}
+.modal-cabecera h2{font-size:24px}
+.cerrar-modal{border:0;background:#edf1ed;border-radius:50%;width:35px;height:35px;cursor:pointer;font-size:20px}
+.item-carrito{display:grid;grid-template-columns:75px 1fr auto;gap:13px;align-items:center;padding:15px 0;border-bottom:1px solid #eee}
+.item-carrito img{width:75px;height:75px;object-fit:cover;border-radius:8px}
+.item-carrito h4{font-size:14px;color:#111}
+.item-carrito p{font-size:13px;color:#222;font-weight:500}
+.eliminar{border:0;background:#e8f0eb;color:#103f34;padding:7px 10px;border-radius:7px;cursor:pointer}
+.total-carrito{display:flex;justify-content:space-between;font-size:19px;font-weight:bold;margin:20px 0}
+.carrito-vacio{text-align:center;padding:35px;color:#222}
+.btn-comprar-carrito{width:100%;border:0;background:var(--rojo);color:#fff;padding:14px;border-radius:25px;cursor:pointer;font-weight:bold;font-size:15px}
+.btn-comprar-carrito:hover{background:#0c342b}
+.modal-cuenta{background:#fff;width:100%;max-width:480px;max-height:90vh;overflow:auto;border-radius:16px;padding:0}
+.modal-cuenta-header{padding:22px 25px 10px;border-bottom:1px solid #eee}
+.modal-cuenta-header h2{font-size:22px;margin-bottom:6px}
+.modal-cuenta-header p{font-size:13px;color:#222;font-weight:500}
+.modal-cuenta-header a{color:var(--primario);font-weight:bold;text-decoration:none}
+.modal-cuenta-body{padding:20px 25px 25px}
+.seccion-form{margin-bottom:22px}
+.seccion-form h3{font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:var(--primario);margin-bottom:14px;padding-bottom:6px;border-bottom:2px solid var(--claro)}
+.campo-cuenta{margin-bottom:14px}
+.campo-cuenta label{display:block;font-size:13px;font-weight:600;margin-bottom:5px;color:#111}
+.campo-cuenta label .requerido{color:#103f34}
+.campo-cuenta input,.campo-cuenta select{width:100%;border:1px solid #d9ded9;background:#fff;border-radius:8px;padding:11px 13px;outline:none;color:#111;font-size:14px}
+.campo-cuenta input:focus,.campo-cuenta select:focus{border-color:var(--acento)}
+.cumpleanos-grupo{display:flex;gap:10px}
+.cumpleanos-grupo select{flex:1}
+.radio-grupo{display:flex;gap:20px;align-items:center;margin-top:6px}
+.radio-grupo label{display:flex;align-items:center;gap:6px;font-weight:normal;cursor:pointer}
+.radio-grupo input{accent-color:var(--primario)}
+.check-privacidad{display:flex;align-items:flex-start;gap:8px;font-size:13px;margin:18px 0;color:#222}
+.check-privacidad input{margin-top:3px;accent-color:var(--primario)}
+.check-privacidad a{color:var(--primario);font-weight:bold;text-decoration:none}
+.btn-continuar{width:100%;background:var(--primario);color:#fff;border:none;border-radius:28px;padding:14px;font-weight:bold;font-size:15px;cursor:pointer}
+.btn-continuar:hover{background:var(--acento)}
+footer{background:#0b211a;color:#d6e3d9;padding:45px 7% 20px}
+.footer-contenido{max-width:1100px;margin:auto;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px}
+.footer-logo{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.footer-logo img{width:55px;height:60px;object-fit:contain}
+.footer-logo h3{color:#fff;font-size:22px}
+.footer-columna h4{color:#fff;font-size:14px;margin-bottom:14px}
+.footer-columna p,.footer-columna a{display:block;color:#bdccc2;text-decoration:none;font-size:13px;margin-bottom:9px}
+.footer-final{text-align:center;border-top:1px solid rgba(255,255,255,.15);padding-top:18px;margin-top:35px;font-size:12px}
+@media(max-width:900px){.barra-busqueda{order:3;width:100%;max-width:100%;margin:10px 0 0}.hero-contenido{grid-template-columns:1fr}.hero img.logo-hero{width:150px !important;max-width:150px !important}.catalogo-grid{grid-template-columns:repeat(2,1fr)}.footer-contenido{grid-template-columns:1fr 1fr}.detalle-grid{grid-template-columns:1fr;gap:25px}.detalle-imagen img{height:390px}}
+@media(max-width:600px){header{padding:10px 3%;gap:8px}.logo img{width:48px;height:58px}.linea{height:50px}.nombre h1{font-size:21px}.nombre p{font-size:8px;letter-spacing:3px}.iconos{gap:5px}.icono{width:36px;height:36px}.icono svg{width:17px;height:17px}nav{padding:12px 2px;gap:4px}nav a{padding:0 8px;font-size:12px}.hero{padding:38px 6%}.hero h2{font-size:29px}.hero img.logo-hero{width:130px !important;max-width:130px !important}.categoria{flex-basis:90px}.categoria img{width:76px;height:76px}.cinta-track .producto{flex-basis:calc(50% - 9px)}.cinta-track .producto img{height:210px}.catalogo-grid{grid-template-columns:1fr}.catalogo-portada h2{font-size:26px}.servicios{grid-template-columns:1fr;gap:25px;padding:30px 8% 45px}.footer-contenido{grid-template-columns:1fr;gap:25px}.detalle-contenido{padding:25px 5% 50px}.detalle-imagen img{height:310px}.detalle-info h2{font-size:25px}.item-carrito{grid-template-columns:60px 1fr auto}.item-carrito img{width:60px;height:60px}.modal-cuenta{max-width:100%;border-radius:12px}}
+#paginaComplementos{display:none;background:#fff;min-height:80vh;padding-bottom:110px}
+.complementos-top{text-align:center;padding:35px 5% 10px}
+.complementos-top h2{font-size:28px;line-height:1.2;color:#103f34;text-transform:uppercase}
+.complementos-top p{color:#222;font-size:14px;max-width:600px;margin:14px auto;font-weight:500}
+.filtros-complementos{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:10px 5% 20px}
+.filtros-complementos button{border:1px solid #ddd;background:#fff;color:#111;padding:8px 14px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600}
+.filtros-complementos button.activo{background:#1e7a55;color:#fff;border-color:#1e7a55}
+.grid-complementos{max-width:1100px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:0 5% 30px}
+.card-complemento{background:#fff;border:1px solid #f0f0f0;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.06);padding-bottom:14px}
+.card-complemento img{width:100%;height:200px;object-fit:cover;background:#fff}
+.card-complemento-info{padding:12px 14px 0}
+.card-complemento-info h4{font-family:Arial;font-size:13px;color:#111;min-height:36px}
+.card-complemento-info .precio-comp{color:#103f34;font-weight:bold;font-size:14px;margin:6px 0 10px;display:block}
+.btn-agregar-comp{width:100%;background:#1e7a55;color:#fff;border:0;padding:10px;border-radius:20px;cursor:pointer;font-weight:bold;font-size:13px}
+.btn-opciones-comp{width:100%;background:#fff;color:#103f34;border:1px solid #b8d1bd;padding:10px;border-radius:20px;cursor:pointer;font-size:13px}
+.btn-agregado{width:100%;background:#c0392b!important;color:#fff!important;border:1px solid #c0392b!important;padding:10px;border-radius:20px;cursor:pointer;font-weight:bold;font-size:13px}
+.barra-cesta{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #eee;display:none;justify-content:space-between;align-items:center;gap:10px;padding:10px 4%;z-index:400;flex-wrap:wrap;box-shadow:0 -5px 20px rgba(0,0,0,.08)}
+.barra-cesta.visible{display:flex}
+.barra-cesta .cesta-info{font-size:13px;color:#222;font-weight:600}
+.barra-cesta .cesta-info b{color:#111}
+.btn-no-gracias{background:none;border:0;color:#222;text-decoration:underline;cursor:pointer;font-size:13px;font-weight:600}
+.btn-continuar-pago{background:#1e7a55;color:#fff;border:0;padding:11px 18px;border-radius:25px;cursor:pointer;font-weight:bold}
+.modal-opciones{position:relative;background:#fff;width:100%;max-width:460px;border-radius:14px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+.opciones-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+.opciones-head img{width:60px;height:70px;object-fit:cover;border-radius:6px;background:#f5f5f5}
+.opciones-head h3{font-family:Arial;font-size:14px;color:#111;line-height:1.3}
+.opciones-head .precio-op{color:#103f34;font-weight:bold;font-size:13px;margin-top:4px}
+.cerrar-opciones{position:absolute;top:10px;right:10px;border:0;background:#f0f0f0;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px}
+.campo-firma label{font-size:13px;font-weight:bold;display:block;margin-bottom:6px;color:#111}
+.campo-firma label span{color:#103f34}
+.campo-firma input{width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;outline:none;font-size:13px;color:#111}
+.check-anonimo{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#222;margin:10px 0 16px;line-height:1.4;font-weight:500}
+.check-anonimo b{color:#111}
+.check-anonimo input{margin-top:2px;accent-color:#103f34}
+.btn-agregar-cesta{width:100%;background:#1e7a55;color:#fff;border:0;padding:13px;border-radius:25px;cursor:pointer;font-weight:bold;font-size:14px}
+#paginaPago{display:none;background:#fff;min-height:80vh;padding:0 4% 60px}
+.pago-breadcrumb{text-align:center;color:#222;font-size:13px;padding:16px 0 4px;font-weight:600}
+.pago-breadcrumb b{color:#111}
+.pago-titulo{max-width:820px;margin:6px auto 14px;font-size:30px;color:#111;font-family:Georgia,serif}
+.pago-tabs{max-width:820px;margin:0 auto 14px;display:grid;grid-template-columns:1fr 1fr 1fr;background:#faf7f5;border-radius:10px;padding:5px;gap:5px}
+.pago-tabs button{border:0;background:transparent;padding:11px;border-radius:8px;cursor:pointer;color:#222;font-size:14px;font-weight:600}
+.pago-tabs button.activo{background:#fff;color:#103f34;font-weight:bold;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.pago-card{max-width:820px;margin:0 auto 16px;background:#fff;border:1px solid #eee;border-radius:12px;box-shadow:0 2px 14px rgba(0,0,0,.04);overflow:hidden}
+.pago-card-head{display:flex;gap:10px;align-items:center;padding:16px 18px;border-bottom:1px solid #eee;font-weight:bold;font-size:15px;color:#111}
+.pago-card-head span{background:#e8f0eb;color:#1e7a55;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px}
+.pago-card-body{padding:18px}
+.pago-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pago-grid2 label,.pago-campo label{display:block;font-size:13px;margin:0 0 6px;color:#111;font-weight:600}
+.pago-grid2 label b,.pago-campo label b{color:#103f34}
+.pago-grid2 input,.pago-grid2 select,.pago-campo input,.pago-campo select,.pago-campo textarea{width:100%;padding:11px 12px;border:1px solid #e3e3e3;border-radius:8px;outline:none;font-size:14px;background:#fff;color:#111}
+.pago-cumple{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pago-entrega-box{border:1.5px solid #b8d1bd;background:#e8f0eb;border-radius:10px;padding:16px}
+.pago-entrega-box h4{font-size:14px;margin-bottom:12px;font-family:Arial;color:#111}
+.pago-entrega-opciones{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pago-entrega-opcion{border:1.5px solid #e5e5e5;background:#fff;border-radius:10px;padding:12px;cursor:pointer;display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.4;color:#222;font-weight:500}
+.pago-entrega-opcion.sel{border-color:#1e7a55;box-shadow:0 0 0 1px #1e7a55}
+.pago-entrega-opcion b{display:block;color:#111}
+.pago-entrega-opcion small{color:#222;font-weight:500}
+.pago-opcion-envio{border:1.5px solid #b8d1bd;background:#e8f0eb;border-radius:10px;padding:13px 14px;display:flex;gap:10px;align-items:center;font-size:14px;color:#111;font-weight:600}
+.pago-opcion-envio input{accent-color:#103f34;width:18px;height:18px}
+.pago-entrega-fecha{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center;margin-bottom:12px;font-size:13px;color:#111;font-weight:600}
+.pago-entrega-fecha input,.pago-entrega-fecha select{padding:11px;border:1px solid #e3e3e3;border-radius:8px;width:100%;color:#111}
+.pago-tabla{width:100%;border-collapse:collapse;font-size:13px}
+.pago-tabla th{color:#111;font-weight:bold;text-align:left;padding:8px 6px;border-bottom:1px solid #eee}
+.pago-tabla td{padding:12px 6px;border-bottom:1px solid #f0f0f0;vertical-align:top;color:#111}
+.pago-tabla img{width:55px;height:55px;object-fit:cover;border-radius:6px}
+.pago-tabla .pago-nombre{color:#103f34;font-weight:bold}
+.pago-tabla .pago-detalle{color:#222;font-size:11px;line-height:1.5;margin-top:4px;font-weight:500}
+.pago-cant{display:flex;gap:6px;align-items:center}
+.pago-cant button{width:30px;height:30px;border:0;background:#1e7a55;color:#fff;border-radius:7px;cursor:pointer;font-size:16px}
+.pago-cant input{width:55px;text-align:center;padding:7px;border:1px solid #e3e3e3;border-radius:7px;color:#111}
+.pago-cant .pago-quitar{background:#fff;border:1px solid #e3e3e3;color:#103f34}
+.pago-totales{max-width:340px;margin-left:auto;margin-top:14px;font-size:13px;color:#111;font-weight:600}
+.pago-totales div{display:flex;justify-content:space-between;padding:5px 0}
+.pago-totales .pago-total-final{font-weight:bold;font-size:14px;border-top:1px solid #eee;margin-top:6px;padding-top:10px;color:#000}
+.pago-cupon{display:flex;gap:10px;margin-top:14px}
+.pago-cupon input{flex:1;max-width:220px;padding:11px;border:1px solid #e3e3e3;border-radius:8px;color:#111}
+.btn-cupon{background:#1e7a55;color:#fff;border:0;padding:11px 16px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:13px}
+.pago-metodo{border:1.5px solid #e5e5e5;border-radius:10px;padding:13px 14px;display:flex;gap:10px;align-items:center;margin-bottom:10px;cursor:pointer;font-size:14px;color:#111;font-weight:600}
+.pago-metodo.sel{border-color:#b8d1bd;background:#e8f0eb}
+.pago-metodo input{accent-color:#103f34;width:18px;height:18px}
+.pago-metodo .pago-marca{margin-left:auto;font-weight:bold;font-size:12px}
+.pago-metodo small{display:block;color:#222;font-size:12px;font-weight:500}
+.pago-info-metodo{background:#faf7f5;border-radius:8px;padding:12px;font-size:13px;color:#222;margin:-4px 0 12px;line-height:1.6;font-weight:500}
+.pago-terminos{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:14px 0;color:#111;font-weight:600}
+.pago-terminos input{margin-top:3px;accent-color:#103f34}
+.pago-terminos a{color:#1e7a55;font-weight:bold;text-decoration:none}
+.pago-botones{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.btn-seguir,.btn-confirmar{border:0;background:#1e7a55;color:#fff;padding:13px 20px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:13px}
+@media(max-width:700px){.grid-complementos{grid-template-columns:repeat(2,1fr)}.complementos-top h2{font-size:22px}.card-complemento img{height:150px}.pago-grid2{grid-template-columns:1fr}.pago-entrega-opciones{grid-template-columns:1fr}.pago-entrega-fecha{grid-template-columns:1fr}.pago-titulo{font-size:24px}}
+
+/* SOLO ACCION AL APRETAR - NO CAMBIA EL COLOR BASE */
+button, .btn, .btn-agregar-comp, .btn-agregado, .btn-opciones-comp, .comprar, .btn-continuar-pago, .btn-confirmar, .btn-seguir, .btn-comprar, .btn-comprar-carrito{transition: background .15s ease, filter .15s ease, transform .1s ease !important;}
+button:hover, .btn:hover{filter:brightness(1.15) !important;}
+button:active, .btn:active{filter:brightness(1.45) saturate(.6) !important;transform:scale(.97) !important;}
+.btn-agregar-comp:active, .comprar:active, .btn-continuar-pago:active, .btn-confirmar:active, .btn-seguir:active, .btn-comprar:active, .btn-comprar-carrito:active{background:#b8d1bd !important;border-color:#b8d1bd !important;color:#103f34 !important;filter:none !important;}
+.btn-agregado:active{background:#f2b8c6 !important;border-color:#f2b8c6 !important;color:#7a1f2b !important;filter:none !important;}
+.btn-opciones-comp:active{background:#e8f0eb !important;border-color:#b8d1bd !important;color:#103f34 !important;filter:none !important;}
+
+</style>
+</head>
+<body>
+<header>
+<a href="index.html" class="logo"><img src="https://i.ibb.co/MyGYNwY6/Isolated-Ivory-Rose-Stem.png" alt="Valley of Roses"><div class="linea"></div><div class="nombre"><h1>Valley<br>of Roses</h1><p>FLORISTERIA</p></div></a>
+<div class="barra-busqueda"><input type="text" id="busqueda" placeholder="Buscar flores, globos, regalos..." autocomplete="off" oninput="buscarEnVivo()" onfocus="buscarEnVivo()"><div class="resultados-busqueda" id="resultadosBusqueda"></div></div>
+<div class="iconos">
+<a href="Valle-of-roses2.html" class="icono" title="Inicio"><svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9 21v-7h6v7"/></svg></a>
+<button class="icono" title="Carrito" onclick="mostrarCarrito()"><svg viewBox="0 0 24 24"><path d="M2 3h2l2.5 13h12L21 7H5"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg><span class="contador" id="contador">0</span></button>
+<button class="icono" title="Cuenta" onclick="abrirModalCuenta()"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg></button>
+<button class="icono" title="Menu" onclick="document.querySelector('nav').scrollIntoView()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg></button>
+</div>
+</header>
+<nav><a href="Valle-of-roses2.html">Inicio</a><a href="novedades.html">Novedades</a><a href="contacto.html">Contacto</a></nav>
+<main id="paginaPrincipal">
+<section class="hero"><div class="hero-contenido"><div><span class="etiqueta">        <h1>Valley of Roses</h1>
+        <h2>Tu floristería de confianza, flores frescas para cada momento especial</h2>
+        <p>En nuestra florería encontrarás arreglos únicos, creados con amor, para cada momento especial.</p>
+</a></p><a href="#categorias" class="btn">Ver nuestras flores →</a></div><img class="logo-hero" src="https://i.ibb.co/B5HwD26h/Valley-of-Roses-Floral-Emblem.png" alt="Valley of Roses"></div></section>
+<section class="categorias" id="categorias"><h3 class="titulo-seccion">Compra por ocasion</h3><div class="lista-categorias">
+<a href="?categoria=madre" class="categoria"><img src="https://i.ibb.co/svbK0f5W/aee0a79dd7db16b95a04b9abbd3cb154.jpg" alt="aee0a79dd7db16b95a04b9abbd3cb154" border="0"><span>Dia de la Madre</span></a>
+<a href="?categoria=rosas" class="categoria"><img src="https://i.ibb.co/G41JVqHc/472b1c5d1445b56cf683beefee36d346.jpg" alt="472b1c5d1445b56cf683beefee36d346" border="0"><span>Rosas</span></a>
+<a href="?categoria=cajas" class="categoria"><img src="https://i.ibb.co/PZxr13pP/5aa60b2e2b956c799560450cd1094740.jpg" alt="5aa60b2e2b956c799560450cd1094740" border="0"><span>En cajas</span></a>
+<a href="?categoria=variados" class="categoria"><img src="https://i.ibb.co/zhXhWPN0/39e91071814b00a19c6c14a427bbb067.jpg" alt="39e91071814b00a19c6c14a427bbb067" border="0"><span>Variados</span></a>
+<a href="?categoria=globos" class="categoria"> <img src="https://i.ibb.co/HTRTzKyX/080862b75ae3c4907ca32029efb6f623.jpg" alt="080862b75ae3c4907ca32029efb6f623" border="0"><span>Globos</span></a>
+<a href="?categoria=especiales" class="categoria"><img src="https://i.ibb.co/HfjQhGhX/7ad51fc5ec8c905fd3eb53ea8801b9c4.jpg" alt="7ad51fc5ec8c905fd3eb53ea8801b9c4" border="0"><span>Especiales</span></a>
+<a href="?categoria=nacimientos" class="categoria"><img src="https://i.ibb.co/cSzdB7CS/efd13edadc012a2d3042f6feb373fe98.jpg" alt="efd13edadc012a2d3042f6feb373fe98" border="0"><span>Nacimientos</span></a>
+<a href="?categoria=cumpleanos" class="categoria"><img src="https://i.ibb.co/LzHj3qNb/ef4f44bc67bcfa50b72a519a6b2f4a16.jpg" alt="ef4f44bc67bcfa50b72a519a6b2f4a16" border="0"><span>Cumpleaños</span></a>
+<a href="?categoria=regalos" class="categoria"><img src="https://i.ibb.co/mFbJ1V82/00291f84435c62c41e094c40d04854dd.jpg" alt="00291f84435c62c41e094c40d04854dd" border="0"><span>Regalos</span></a>
+</div></section>
+<section class="mas-vendidos" id="tienda"><h3>Mas vendidos</h3><p class="mas-vendidos-sub"></p><div class="cinta-mas-vendidos"><div class="cinta-track" id="masVendidos"></div></div><div class="puntos-2en2" id="puntos2en2"></div></section>
+<section class="bienvenida" id="bienvenida"><h2>Bienvenidos a Valley of Roses</h2><p>Somos una floristeria dedicada a llenar de alegria cada momento especial. Ofrecemos arreglos florales elaborados con dedicacion, creatividad y mucho carino. Nuestro proposito es ayudarte a expresar tus sentimientos a traves de la belleza de las flores. Cada diseno es preparado pensando en hacer de cada ocasion un recuerdo inolvidable.</p></section>
+<section class="servicios"><div class="servicio"><div class="servicio-icono">Entrega</div><h4>Entrega a domicilio</h4><p>Recibe tus flores comodamente en tu hogar.</p></div><div class="servicio"><div class="servicio-icono">Pago</div><h4>Pago seguro</h4><p>Opciones de pago comodas y confiables.</p></div><div class="servicio"><div class="servicio-icono">Calidad</div><h4>Calidad garantizada</h4><p>Flores frescas y atencion personalizada.</p></div></section>
+</main>
+<section id="paginaCatalogo"><div class="catalogo-portada"><span class="etiqueta">VALLEY OF ROSES</span><h2 id="tituloCatalogo">Nuestro catalogo</h2><p id="descripcionCatalogo">Encuentra el detalle perfecto para cada ocasion.</p><a href="index.html" class="volver">Volver a la pagina principal</a></div><div class="catalogo-contenido"><div class="catalogo-cabecera"><h3>Descubre nuestros productos</h3><p>Selecciona un producto para conocer sus opciones de compra.</p></div><div class="filtros" id="filtros"><button class="activo" onclick="filtrar('todos',this)">Todos</button><button onclick="filtrar('economico',this)">Desde $15</button><button onclick="filtrar('premium',this)">Premium</button></div><div class="catalogo-grid" id="productosCatalogo"></div></div></section>
+<section id="paginaProducto"><div class="detalle-contenido"><a href="javascript:history.back()" class="volver">Volver al catalogo</a><div class="detalle-grid" style="margin-top:25px"><div class="detalle-imagen"><img id="detalleImagen" src="" alt="Producto seleccionado"><div class="detalles-producto" id="detallesProductoBox"><h3>Detalles del producto</h3><ul id="detallesProductoLista"></ul></div></div><div class="detalle-info"><h2 id="detalleNombre"></h2><div class="detalle-precio" id="detallePrecio"></div><div class="detalle-etiquetas"><span class="etiqueta-producto" id="detalleCodigo">Codigo: VR001</span><span class="etiqueta-producto">Disponibilidad: En stock</span></div><h3>Opciones disponibles</h3><div class="campo"><label for="colorProducto">Color o presentacion</label><select id="colorProducto"><option value="A eleccion de la floristeria">A eleccion de la floristeria</option><option value="Rojo">Rojo</option><option value="Rosado">Rosado</option><option value="Blanco">Blanco</option><option value="Amarillo">Amarillo</option><option value="Colores variados">Colores variados</option></select></div><div class="campo"><label for="nombrePersonalizado">Nombre para personalizar (opcional)</label><input id="nombrePersonalizado" type="text" maxlength="40" placeholder="Escribe el nombre"></div><div class="campo"><label for="dedicatoria">Dedicatoria (maximo 175 caracteres)</label><label class="opcion-linea"><input type="checkbox" id="sinDedicatoria"> Sin dedicatoria</label><textarea id="dedicatoria" maxlength="175" placeholder="Escribe aqui tu mensaje especial..."></textarea></div><div class="campo"><label for="firma">Firma (maximo 30 caracteres)</label><input id="firma" type="text" maxlength="30" placeholder="Tu nombre o iniciales"><label class="opcion-linea"><input type="checkbox" id="anonimo"> Quiero que mi regalo sea anonimo</label></div><div class="cantidad-control"><button type="button" onclick="cambiarCantidad(-1)">-</button><span id="cantidadDetalle">1</span><button type="button" onclick="cambiarCantidad(1)">+</button></div><div class="botones-compra"><button class="btn-comprar" onclick="comprarProducto()">Comprar</button></div></div></div><div class="descripcion-producto"><h3>Descripcion del producto</h3><p id="detalleDescripcion"></p><div class="aviso-productos"><strong>Informacion importante</strong><p>Los arreglos florales se preparan cuidadosamente y pueden presentar pequenas variaciones segun la disponibilidad de flores y materiales. Las imagenes son ilustrativas. Nuestro objetivo es mantener el estilo, los colores y la calidad del diseno seleccionado.</p></div></div></div></section>
+<section id="paginaComplementos"><div class="complementos-top"><h2>Te gustaria complementar tu arreglo?</h2><p>Hazlo todavia mas especial con un detalle extra: chocolates, globos, peluches, vinos o una tarjeta.</p></div><div class="filtros-complementos" id="filtrosComplementos"><button class="activo" onclick="filtrarComplementos('todos',this)">Todos</button><button onclick="filtrarComplementos('chocolates',this)">Chocolates y dulces</button><button onclick="filtrarComplementos('globos',this)">Globos</button><button onclick="filtrarComplementos('peluches',this)">Peluches</button><button onclick="filtrarComplementos('vinos',this)">Vinos y copas</button><button onclick="filtrarComplementos('tarjetas',this)">Tarjetas</button><button onclick="filtrarComplementos('globos',this)">Balloons</button></div><div class="grid-complementos" id="gridComplementos"></div></section>
+<section id="paginaPago"><div class="pago-breadcrumb">Inicio / <b>Pago</b></div><h2 class="pago-titulo">Pago</h2><div class="pago-tabs" id="pagoTabs"><button onclick="cambiarTabPago('registro',this)">Registrese</button><button class="activo" onclick="cambiarTabPago('invitado',this)">Invitado</button><button onclick="cambiarTabPago('login',this)">Login</button></div>
+<div class="pago-card"><div class="pago-card-head"><span>1</span> Informacion De Cliente</div><div class="pago-card-body"><div class="pago-grid2"><div><label><b>*</b> Nombre</label><input id="pagoNombreCliente"></div><div><label><b>*</b> Apellido</label><input id="pagoApellidoCliente"></div><div><label><b>*</b> Email</label><input id="pagoEmailCliente" type="email"></div><div><label><b>*</b> Telefono celular</label><input id="pagoTelefonoCliente" placeholder="Ej.: 6000-0000"></div><div><label><b>*</b> Pais</label><select id="pagoPaisCliente"><option>Panama</option><option>Costa Rica</option><option>Colombia</option><option>Mexico</option><option>Estados Unidos</option><option>Otro</option></select></div><div><label>Cumpleanos (opcional)</label><div class="pago-cumple"><select id="pagoDiaCumple"><option value="">Dia</option></select><select id="pagoMesCumple"><option value="">Mes</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div></div></div>
+<div class="pago-entrega-box" style="margin-top:16px"><h4>Como quieres recibir tu pedido?</h4><div class="pago-entrega-opciones"><div class="pago-entrega-opcion" id="opEnvioDomicilio" onclick="elegirEntrega('domicilio')">Envio<div><b>Envio a domicilio</b><small>Llenas abajo la direccion de entrega</small></div></div><div class="pago-entrega-opcion sel" id="opRetiroTienda" onclick="elegirEntrega('retiro')">Tienda<div><b>Retiro en tienda</b><small>Calle 44 Bella Vista, Edificio 4-154, Local 1</small></div></div></div><div id="boxDireccionEntrega" style="display:none;margin-top:14px"><div class="pago-grid2"><div><label><b>*</b> Provincia</label><select id="pagoProvincia"><option>Panama</option><option>Panama Oeste</option><option>Chiriqui</option><option>Cocle</option><option>Colon</option><option>Veraguas</option><option>Herrera</option><option>Los Santos</option><option>Bocas del Toro</option><option>Darien</option></select></div><div><label><b>*</b> Distrito / Corregimiento</label><input id="pagoDistrito" placeholder="Ej.: Bella Vista"></div><div style="grid-column:1/-1"><label><b>*</b> Direccion de entrega</label><input id="pagoDireccion" placeholder="Calle, edificio, casa / apartamento, referencia"></div></div></div></div></div></div>
+<div class="pago-card"><div class="pago-card-head"><span>2</span> Opciones De Envio</div><div class="pago-card-body"><div id="boxOpcionRetiro"><label style="font-size:12px;color:#111">RECOGER EN TIENDA</label><div class="pago-opcion-envio" style="margin-top:8px"><input type="radio" name="opcionEnvio" checked><b>Recoger en tienda - $0,00</b></div></div><div id="boxOpcionDomicilio" style="display:none"><label style="font-size:12px;color:#111">ENVIO A DOMICILIO</label><div class="pago-opcion-envio" style="margin-top:8px"><input type="radio" name="opcionEnvio" checked><b>Envio a domicilio - $5,00</b></div></div></div></div>
+<div class="pago-card"><div class="pago-card-head"><span>3</span> Seleccione Dia De Entrega</div><div class="pago-card-body"><div class="pago-entrega-fecha"><label><b>*</b> Dia de entrega</label><div><input type="date" id="pagoDiaEntrega"></div></div><div class="pago-entrega-fecha"><label><b>*</b> Rango de horario</label><div><label style="font-weight:bold;margin-bottom:6px" id="pagoLabelHora">Hora aproximada de retiro:</label><select id="pagoHoraEntrega"><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option selected>11:30 AM</option><option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option></select></div></div></div></div>
+<div class="pago-card"><div class="pago-card-head"><span>4</span> Carro De Compras</div><div class="pago-card-body" style="padding:10px 18px 18px"><div style="overflow-x:auto"><table class="pago-tabla"><thead><tr><th>Imagen</th><th>Nombre</th><th>Cantidad</th><th>Precio unitario</th><th>Total</th></tr></thead><tbody id="pagoTablaCarro"></tbody></table></div><div class="pago-totales" id="pagoTotales"></div><div class="pago-cupon"><input id="pagoCupon" placeholder="Introduzca su codigo"><button class="btn-cupon" onclick="aplicarCupon()">APLICAR CUPON</button></div><p id="pagoCuponMsg" style="font-size:13px;color:#28a745;margin-top:8px"></p></div></div>
+<div class="pago-card"><div class="pago-card-head"><span>5</span> Metodos De Pago</div><div class="pago-card-body"><label class="pago-metodo sel" onclick="elegirMetodoPago('tarjeta',this)"><input type="radio" name="metodoPago" checked><div><b>PagueloFacil - Visa / Mastercard</b></div><span class="pago-marca">VISA Mastercard</span></label><div id="boxMetodoTarjeta" class="pago-info-metodo"><div class="pago-grid2"><div><label><b>*</b> Numero de tarjeta</label><input id="pagoTarjeta" inputmode="numeric" placeholder="1234 1234 1234 1234" maxlength="19"></div><div><label><b>*</b> Nombre en la tarjeta</label><input id="pagoNombreTarjeta" placeholder="Como aparece en la tarjeta"></div><div><label><b>*</b> Fecha de expiracion</label><input id="pagoExpiracion" placeholder="MM / AA" maxlength="7"></div><div><label><b>*</b> CVC</label><input id="pagoCVC" inputmode="numeric" placeholder="123" maxlength="4"></div></div></div><label class="pago-metodo" onclick="elegirMetodoPago('yappy',this)"><input type="radio" name="metodoPago"><div><b>Yappy</b><small>Te enviamos el link / numero para pagar por Yappy</small></div><span class="pago-marca">yappy</span></label><div id="boxMetodoYappy" class="pago-info-metodo" style="display:none">Al confirmar, te enviamos por WhatsApp el numero Yappy de Valley of Roses para que hagas el pago y nos mandes el comprobante.</div><label class="pago-metodo" onclick="elegirMetodoPago('paypal',this)"><input type="radio" name="metodoPago"><div><b>PayPal Express Checkout</b></div><span class="pago-marca">PayPal</span></label><div id="boxMetodoPaypal" class="pago-info-metodo" style="display:none">Al confirmar, te redirigimos a PayPal para completar el pago de forma segura.</div><label class="pago-metodo" onclick="elegirMetodoPago('transferencia',this)"><input type="radio" name="metodoPago"><div><b>Transferencia Bancaria - Banco General / BAC / Global Bank / Banistmo / Banesco</b></div><span class="pago-marca">ACH DIRECTO</span></label><div id="boxMetodoTransferencia" class="pago-info-metodo" style="display:none">Banco General - Cuenta de Ahorros - Valley of Roses<br>Envianos el comprobante por WhatsApp. Tu pedido se prepara al confirmar el pago.<br>Tambien aceptamos BAC, Global Bank, Banistmo y Banesco por ACH.</div><label class="pago-metodo" onclick="elegirMetodoPago('contraentrega',this)"><input type="radio" name="metodoPago"><div><b>Pago contra Entrega - Punto Portatil / Efectivo</b></div><span class="pago-marca">Efectivo</span></label><div id="boxMetodoContra" class="pago-info-metodo" style="display:none">Pagas al recibir tu pedido, con punto portatil o en efectivo.</div></div></div>
+<div class="pago-card"><div class="pago-card-body"><div class="pago-campo"><label>Agregue Comentarios a su orden</label><textarea id="pagoComentarios" rows="3" style="width:100%;padding:11px;border:1px solid #e3e3e3;border-radius:8px"></textarea></div><label class="pago-terminos"><input type="checkbox" id="pagoTerminos" checked><span>He leido y estoy de acuerdo con los <a href="#" onclick="alert('Terminos y Condiciones de Valley of Roses');return false;">Terminos Y Condiciones</a></span></label><div class="pago-botones"><button class="btn-seguir" onclick="volverATienda()">CONTINUE COMPRANDO</button><button class="btn-confirmar" onclick="confirmarOrden()">CONFIRMAR ORDEN</button></div></div></div></section>
+<footer id="contacto"><div class="footer-contenido"><div class="footer-columna"><div class="footer-logo"><img src="https://i.ibb.co/MyGYNwY6/Isolated-Ivory-Rose-Stem.png" alt="Logo"><h3>Valley of Roses</h3></div><p>Floristeria dedicada a crear detalles unicos para cada momento especial.</p></div><div class="footer-columna"><h4>INFORMACION</h4><a href="index.html">Inicio</a><a href="index.html#tienda">Nuestra tienda</a><a href="novedades.html">Novedades</a><a href="index.html#bienvenida">Nosotros</a></div><div class="footer-columna"><h4>CONTACTO</h4><p>Panama</p><p>Atencion personalizada</p><p>Gracias por elegirnos</p></div></div><div class="footer-final">2026 Valley of Roses | Floristeria. Todos los derechos reservados.</div></footer>
+<div class="fondo-modal" id="modalCarrito" onclick="cerrarSiFondo(event)"><div class="modal"><div class="modal-cabecera"><h2>Mi carrito de compras</h2><button class="cerrar-modal" onclick="cerrarCarrito()">x</button></div><div id="contenidoCarrito"></div></div></div>
+<div class="fondo-modal" id="modalCuenta" onclick="cerrarSiFondoCuenta(event)"><div class="modal-cuenta"><div class="modal-cuenta-header"><div style="display:flex;justify-content:space-between;align-items:center;"><h2>Crear una cuenta</h2><button class="cerrar-modal" onclick="cerrarModalCuenta()">x</button></div><p>Por favor, si ya dispone de una cuenta con nosotros, entre a traves de la <a href="#" onclick="alert('Proximamente: pagina de acceso');return false;">Pagina de Acceso</a>.</p></div><div class="modal-cuenta-body"><form id="formCuenta" onsubmit="enviarFormularioCuenta(event)"><div class="seccion-form"><h3>Detalles personales</h3><div class="campo-cuenta"><label>Nombre: <span class="requerido">*</span></label><input type="text" id="nombreCuenta" required placeholder="Nombre"></div><div class="campo-cuenta"><label>Apellido: <span class="requerido">*</span></label><input type="text" id="apellidoCuenta" required placeholder="Apellido"></div><div class="campo-cuenta"><label>E-Mail: <span class="requerido">*</span></label><input type="email" id="emailCuenta" required placeholder="E-Mail"></div><div class="campo-cuenta"><label>Telefono: <span class="requerido">*</span></label><input type="tel" id="telefonoCuenta" required placeholder="Telefono"></div><div class="campo-cuenta"><label>Cumpleanos (opcional)</label><div class="cumpleanos-grupo"><select id="diaCumple"><option value="">Dia</option></select><select id="mesCumple"><option value="">Mes</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></div></div></div><div class="seccion-form"><h3>Contrasena</h3><div class="campo-cuenta"><label>Contrasena: <span class="requerido">*</span></label><input type="password" id="passwordCuenta" required placeholder="Contrasena"></div><div class="campo-cuenta"><label>Confirmar: <span class="requerido">*</span></label><input type="password" id="confirmarCuenta" required placeholder="Confirmar"></div></div><div class="seccion-form"><h3>Boletin de noticias</h3><div class="radio-grupo"><label><input type="radio" name="boletin" value="si"> Si</label><label><input type="radio" name="boletin" value="no" checked> No</label></div></div><div class="check-privacidad"><input type="checkbox" id="aceptoPrivacidad" required><label for="aceptoPrivacidad">He leido y estoy de acuerdo con la <a href="#" onclick="alert('Politica de Privacidad de Valley of Roses');return false;">Politica de Privacidad</a></label></div><button type="submit" class="btn-continuar">Continuar</button></form></div></div></div>
+<div class="fondo-modal" id="modalOpciones" onclick="if(event.target.id==='modalOpciones')cerrarOpciones()"><div class="modal-opciones"><button class="cerrar-opciones" onclick="cerrarOpciones()">x</button><div class="opciones-head"><img id="opImg" src="" alt=""><div><h3 id="opNombre"></h3><div class="precio-op" id="opPrecio"></div></div></div><div class="campo-firma"><label><span>*</span> Firma (maximo 30 caracteres)</label><input id="opFirma" type="text" maxlength="30" placeholder="Tu nombre, iniciales o si es anonimo (maximo 30 caracteres)"></div><label class="check-anonimo"><input type="checkbox" id="opAnonimo"><span><b>Quieres que sea anonimo?</b> Activalo aqui. No daremos tu informacion.</span></label><button class="btn-agregar-cesta" onclick="agregarConOpciones()">+ Agregar a la cesta</button></div></div>
+<div class="barra-cesta" id="barraCesta"><div class="cesta-info">Tu cesta: <b><span id="cestaCantidad">0</span> producto(s)</b> - <b id="cestaTotal">$0.00</b></div><div style="display:flex;gap:12px;align-items:center"><button class="btn-no-gracias" onclick="irAPagar()">No, Gracias</button><button class="btn-continuar-pago" onclick="irAPagar()">Continuar Al Pago</button></div></div>
+<script>
+/* =============================================
+   🖼️ IMAGENES GENERALES - TODO SEPARADO
+   rosas / flores / tulipanes / cajas / globos / regalos / cumple
+   Para cambiar: borra solo el link de esa línea y pega el tuyo
+   ============================================= */
+const imagenes={
+  rosas:"https://i.ibb.co/yngYpFsD/6ed96e56b5405e15b6c30b9813fb97cd.jpg", // 👉 rosas - CAMBIA SOLO EL LINK
+  flores:"https://i.ibb.co/JWyHw3PD/254593c74955ded53a2d21e821f4102d.jpg", // 👉 flores - CAMBIA SOLO EL LINK
+  tulipanes:"https://i.ibb.co/whNQJxnL/7de7cbc42ff4c3bd1e5b934bce814527.jpg", // 👉 tulipanes - CAMBIA SOLO EL LINK
+  cajas:"https://i.ibb.co/YFTSB9W2/45630b9689402db434dc7a85c5ca72aa.jpg", // 👉 cajas - CAMBIA SOLO EL LINK
+  globos:"", // 👉 globos - CAMBIA SOLO EL LINK
+  regalos:"", // 👉 regalos - CAMBIA SOLO EL LINK
+  cumple:""  // 👉 cumple - CAMBIA SOLO EL LINK
+};
+const SIN_IMAGEN="data:image/svg+xml;utf8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="700" height="500"><rect width="100%" height="100%" fill="#e8f0eb"/><text x="50%" y="48%" font-family="Arial" font-size="28" fill="#103f34" text-anchor="middle">TU FOTO AQUI</text><text x="50%" y="58%" font-family="Arial" font-size="16" fill="#527c68" text-anchor="middle">Cambia el link en esa linea</text></svg>`);
+// Si la imagen está vacía, muestra el cuadro gris, no una flor de ejemplo
+function detallesDe(tipo,nombre){var base={Incluye:"Flores frescas + envoltura elegante + tarjeta con dedicatoria",Tamano:"Tamano mediano aprox. 35-40 cm de alto",Entrega:"Entrega el mismo dia si pides antes de las 2:00 PM",Cuidado:"Manten en agua fresca y lejos del sol directo",Ocasion:"Cumpleanos, aniversario, perdon, te quiero, gracias"};if(tipo==="cajas"){base.Incluye="Flores frescas en caja decorativa + tarjeta con dedicatoria";base.Tamano="Caja de 20 x 20 cm aprox."}if(tipo==="globos"){base.Incluye="Globo de helio + cinta decorativa + tarjeta";base.Tamano="Globo de 18 pulgadas aprox.";base.Cuidado="Duracion de helio 24-48 horas en interior"}if(tipo==="tulipanes"){base.Incluye="Tulipanes frescos + envoltura + tarjeta";base.Tamano="Ramo de 30-35 cm de alto"}if(tipo==="regalos"){base.Incluye="Arreglo floral + detalle de regalo + tarjeta";base.Tamano="Depende del detalle elegido"}return base}
+function detalleCortoHTML(tipo,nombre){var d=detallesDe(tipo,nombre);return '<div class="detalle-corto"><b>Incluye:</b> '+d.Incluye+'<br><b>Tamano:</b> '+d.Tamano+'<br><b>Entrega:</b> '+d.Entrega+'</div>'}
+/* ===================================================
+   🖼️ PRODUCTOS DEL CATALOGO - TODO SEPARADO
+   Cada producto en su línea, con SU PROPIA imagen
+   Para cambiar una imagen: borra SOLO el link de esa línea
+   y pega tu link nuevo. No toques nombre, precio ni nada más.
+   Formato: ["Nombre", "Descripcion", precio, "tipo", "LINK"]
+   Si dejas el link igual, usa la imagen de siempre.
+   =================================================== */
+const catalogos={
+  rosas:{titulo:"Coleccion de Rosas",descripcion:"Rosas frescas para expresar tus sentimientos.",productos:[
+    ["Ramo de 12 Rosas Rojas", "Doce rosas frescas con envoltura elegante.", 25, "rosas", "https://i.ibb.co/hxsvndKc/42013fc4520f2d7141075d907e1e84a8.jpg"], // 👉 Ramo de 12 Rosas Rojas - CAMBIA SOLO EL LINK
+    ["Ramo de 24 Rosas", "Un detalle lleno de amor y elegancia.", 42, "rosas", "https://i.ibb.co/N6YZFpt8/6037102dca03f91fa17f6cc177f6efe4.jpg"], // 👉 Ramo de 24 Rosas - CAMBIA SOLO EL LINK
+    ["Rosas Rosadas", "Delicadeza y ternura en cada flor.", 28, "flores", "https://i.ibb.co/h1sscfw5/b721c8970190488f86ded107c7f790e4.jpg"], // 👉 Rosas Rosadas - CAMBIA SOLO EL LINK
+    ["Rosas Blancas", "Un arreglo elegante y delicado.", 30, "flores", "https://i.ibb.co/9mP10vhm/24eac60471d7defc5a3330b0446084b7.jpg"], // 👉 Rosas Blancas - CAMBIA SOLO EL LINK
+    ["Caja de Rosas Premium", "Rosas seleccionadas en caja decorativa.", 45, "cajas", "https://i.ibb.co/vC5Mf5xX/d7a005e9ac58a36e085ef9b6947f57d4.jpg"], // 👉 Caja de Rosas Premium - CAMBIA SOLO EL LINK
+    ["Ramo de Rosas Surtidas", "Una combinacion de colores especiales.", 35, "rosas", "https://i.ibb.co/q3dtsP85/1de2270b1c02bfa83599e1095270434d.jpg"], // 👉 Ramo de Rosas Surtidas - CAMBIA SOLO EL LINK
+    ["Rosas con Chocolates", "Flores y chocolates para sorprender.", 38, "regalos", "https://i.ibb.co/6J8KwgFy/1314a84a73191df6c320ec33c2aabd39.jpg"], // 👉 Rosas con Chocolates - CAMBIA SOLO EL LINK
+    ["Ramo Romantico", "Rosas rojas con detalles decorativos.", 40, "rosas", "https://i.ibb.co/XfPhj84w/85ea3e853d886a9cbc3487c8570d67cb.jpg"], // 👉 Ramo Romantico - CAMBIA SOLO EL LINK
+    ["Rosas de Lujo", "Presentacion especial para regalar.", 55, "rosas", "https://i.ibb.co/Sw1btQrm/26cb0db6582282482805bb7079660c3d.jpg"]  // 👉 Rosas de Lujo - CAMBIA SOLO EL LINK
+  ]},
+  globos:{titulo:"Globos y Decoraciones",descripcion:"Globos especiales, arreglos y detalles para celebrar.",productos:[
+    ["Globo Burbuja Personalizado", "Globo transparente con mensaje especial.", 22, "globos", "https://i.ibb.co/0Rs44Hs0/ec4c6718d9462b1f58038f53d994bfab.jpg"], // 👉 Globo Burbuja Personalizado - CAMBIA SOLO EL LINK
+    
+    
+    ["Arreglo de Globos Premium", "Decoracion especial para ocasiones unicas.", 45, "globos", "https://i.ibb.co/KcWMzdbq/b6072d34c4e79d51dede9ccf526ca8ac.jpg"], // 👉 Arreglo de Globos Premium - CAMBIA SOLO EL LINK
+    ["Globo en Forma de Corazon", "Ideal para expresar carino.", 18, "globos", "https://i.ibb.co/C5M0wbjB/7c875ffb58b994d9a6a7fe073051a650.jpg"], // 👉 Globo en Forma de Corazon - CAMBIA SOLO EL LINK
+    ["Set de Globos Dorados", "Decoracion elegante para fiestas.", 20, "globos", "https://i.ibb.co/W4ZXpp91/0e2f4a78920786ec08e8f93d83a5996d.jpg"], // 👉 Set de Globos Dorados - CAMBIA SOLO EL LINK
+    
+    ["Arco de Globos Decorativo", "Ideal para decorar celebraciones.", 50, "globos", "https://i.ibb.co/gMwkxDMk/4b19c551252ee9ec88659e0d0c4c22ae.jpg"], // 👉 Arco de Globos Decorativo - CAMBIA SOLO EL LINK
+    ["Globo con Peluche", "Un regalo tierno y original.", 32, "regalos", "https://i.ibb.co/BYBTjm1/b2b2fcfd62be923ee79eedb47857e926.jpg"]  // 👉 Globo con Peluche - CAMBIA SOLO EL LINK
+  ]},
+  cajas:{titulo:"Flores en Cajas",descripcion:"Arreglos elegantes presentados en cajas decorativas.",productos:[
+    ["Caja de Rosas Rojas", "Rosas rojas en una caja elegante.", 40, "cajas", "https://i.ibb.co/RpMjnNzc/492f03f710397025f49c4b09f2fa1ff1.jpg"], // 👉 Caja de Rosas Rojas - CAMBIA SOLO EL LINK
+    ["Caja Floral Rosada", "Flores en tonos suaves y delicados.", 35, "flores", "https://i.ibb.co/FqfJz8y3/0a255888af795f7532da91ae6a98eb4f.jpg"], // 👉 Caja Floral Rosada - CAMBIA SOLO EL LINK
+    ["Caja Premium", "Arreglo floral de presentacion especial.", 55, "cajas", "https://i.ibb.co/j9GvSxQ4/fb915d58e974f2fc0b744217cdfc24c7.jpg"], // 👉 Caja Premium - CAMBIA SOLO EL LINK
+    ["Caja de Girasoles", "Un detalle lleno de alegria.", 32, "flores", "https://i.ibb.co/fdkVhhrx/15ac682f57dae8e880847088ddb10520.jpg"], // 👉 Caja de Girasoles - CAMBIA SOLO EL LINK
+    ["Caja Romantica", "Rosas y detalles para sorprender.", 48, "cajas", "https://i.ibb.co/p6T0pBgC/67e9ac32afa855609fefa279ab380319.jpg"], // 👉 Caja Romantica - CAMBIA SOLO EL LINK
+    
+  ]},
+  madre:{titulo:"Detalles para Mama",descripcion:"Regalos especiales para demostrarle cuanto la quieres.",productos:[
+    ["Ramo para Mama", "Flores frescas con tarjeta especial.", 30, "flores", "https://i.ibb.co/fdLkSx5Q/9c84aeb7c85d6cf84efc746d946e341f.jpg"], // 👉 Ramo para Mama - CAMBIA SOLO EL LINK
+    ["Caja de Rosas", "Un detalle elegante para mama.", 42, "cajas", "https://i.ibb.co/DPtXMDBc/8cac6a7dbd3b285ff32bc59b5953175a.jpg"], // 👉 Caja de Rosas - CAMBIA SOLO EL LINK
+    ["Ramo de Tulipanes", "Colores delicados y presentacion especial.", 32, "tulipanes", "https://i.ibb.co/ZzYNkwtz/148474bcb83e2ade0db1a21c8fd837a0.jpg"], // 👉 Ramo de Tulipanes - CAMBIA SOLO EL LINK
+    ["Flores con Chocolates", "Una combinacion llena de carino.", 38, "regalos", "https://i.ibb.co/dwrv9nnQ/8e40501a0f6460d8c31b85c1c038d30b.jpg"], // 👉 Flores con Chocolates - CAMBIA SOLO EL LINK
+    ["Arreglo Premium", "Diseno floral especial para mama.", 55, "flores", "https://i.ibb.co/Y7NJ980r/2c8ef895ed9988dd28430ad24bde9656.jpg"], // 👉 Arreglo Premium - CAMBIA SOLO EL LINK
+    ["Globo Te Quiero Mama", "Globo decorativo personalizado.", 20, "globos", "https://i.ibb.co/HD8YZKCY/f93e0c823d6dac2d337918edbd598685.jpg"]  // 👉 Globo Te Quiero Mama - CAMBIA SOLO EL LINK
+  ]},
+  variados:{titulo:"Arreglos Variados",descripcion:"Combinaciones florales para todos los gustos.",productos:[
+    ["Arreglo Floral Especial", "Flores frescas de temporada.", 30, "flores", "https://i.ibb.co/0yqR6p48/839b84a4ff07ccdcfabc322bfd417df7.jpg"], // 👉 Arreglo Floral Especial - CAMBIA SOLO EL LINK
+    ["Ramo de Tulipanes", "Tulipanes de colores variados.", 28, "tulipanes", "https://i.ibb.co/HLxpfDvZ/0bb8d9c03eb888b225079475a1e97c22.jpg"], // 👉 Ramo de Tulipanes - CAMBIA SOLO EL LINK
+    ["Ramo de Girasoles", "Flores llenas de alegria.", 25, "flores", "https://i.ibb.co/1YbhWjXN/363f4183d93cfaa4f1a241012e743bff.jpg"], // 👉 Ramo de Girasoles - CAMBIA SOLO EL LINK
+    ["Ramo Mixto", "Rosas, margaritas y flores variadas.", 35, "flores", "https://i.ibb.co/sv3mfLqX/0d076a9a11a080ee5950be04dafc4c87.jpg"], // 👉 Ramo Mixto - CAMBIA SOLO EL LINK
+    ["Arreglo Natural", "Una combinacion delicada y elegante.", 40, "flores", "https://i.ibb.co/zTLTL3kb/b772c44c4fe098f8a3ec6fe7434a098f.jpg"], // 👉 Arreglo Natural - CAMBIA SOLO EL LINK
+    ["Ramo Colorido", "Flores de diferentes tonos.", 32, "flores", "https://i.ibb.co/jZ4BM5Pf/bbfd2f2715343aa4f1f2bcd19683d559.jpg"]  // 👉 Ramo Colorido - CAMBIA SOLO EL LINK
+  ]},
+  especiales:{titulo:"Detalles Especiales",descripcion:"Disenos unicos para sorprender a esa persona especial.",productos:[
+    ["Ramo de Lujo", "Arreglo floral con envoltura premium.", 55, "flores", "https://i.ibb.co/KcQh6NYs/f2f42828753ad811e68a0a3180f187ca.jpg"], // 👉 Ramo de Lujo - CAMBIA SOLO EL LINK
+    ["Caja Elegante", "Flores en presentacion exclusiva.", 48, "cajas", "https://i.ibb.co/kV1BCWqP/5ff82c485dbfd4d628106b9c58b82e09.jpg"], // 👉 Caja Elegante - CAMBIA SOLO EL LINK
+    ["Sorpresa Romantica", "Flores y detalles decorativos.", 45, "regalos", "https://i.ibb.co/tPnYMPNF/05e95fdac7c69d781bae3c63089161b4.jpg"], // 👉 Sorpresa Romantica - CAMBIA SOLO EL LINK
+    ["Globo Personalizado", "Un mensaje especial para regalar.", 22, "globos", "https://i.ibb.co/wZmTQHkx/d830cad3ffde0ce31de802519a23898f.jpg"], // 👉 Globo Personalizado - CAMBIA SOLO EL LINK
+    ["Ramo Premium", "Flores seleccionadas cuidadosamente.", 60, "rosas", "https://i.ibb.co/ZpMS2Zrz/edff59bdbac059173ac3d89ef680c4a1.jpg"], // 👉 Ramo Premium - CAMBIA SOLO EL LINK
+    ["Detalle Especial", "Un regalo preparado con amor.", 35, "regalos", "https://i.ibb.co/SDNP1z9j/92826567d0f10f495ea525abe0979523.jpg"]  // 👉 Detalle Especial - CAMBIA SOLO EL LINK
+  ]},
+  nacimientos:{titulo:"Regalos para Nacimientos",descripcion:"Detalles tiernos para dar la bienvenida a un nuevo integrante.",productos:[
+    ["Caja Bienvenido Bebe", "Arreglo delicado para celebrar.", 40, "regalos", "https://i.ibb.co/DPZRr5WS/0ae048e6544f723d69f7909ea1bc0ea5.jpg"], // 👉 Caja Bienvenido Bebe - CAMBIA SOLO EL LINK
+    ["Globo Baby", "Globo decorativo para nacimiento.", 18, "globos", "https://i.ibb.co/wFC9XSk7/72fb3155469bff7c3d5e480fc9464e24.jpg"], // 👉 Globo Baby - CAMBIA SOLO EL LINK
+    ["Ramo Dulce", "Flores suaves para una ocasion especial.", 28, "flores", "https://i.ibb.co/wr4SB0sP/f4227b518eb0ba45087682bc8d720746.jpg"], // 👉 Ramo Dulce - CAMBIA SOLO EL LINK
+    ["Peluche con Flores", "Un detalle tierno y especial.", 35, "regalos", "https://i.ibb.co/0pLCgPDd/4ae883ebdb5a9afa82f0338a73b65d93.jpg"], // 👉 Peluche con Flores - CAMBIA SOLO EL LINK
+    ["Caja de Regalo", "Presentacion decorativa para bebe.", 42, "cajas", "https://i.ibb.co/q3N0F5vb/13a3cdf87d9152f65481a53d0362dc9f.jpg"], // 👉 Caja de Regalo - CAMBIA SOLO EL LINK
+    ["Arreglo de Bienvenida", "Flores y detalles de celebracion.", 38, "flores", "https://i.ibb.co/84Dqjjh3/7ac975d5e444edd882e8c35cfb257400.jpg"]  // 👉 Arreglo de Bienvenida - CAMBIA SOLO EL LINK
+  ]},
+  cumpleanos:{titulo:"Cumpleaños",descripcion:"Celebra un dia especial con flores, globos y sorpresas.",productos:[
+    ["Ramo de Cumpleaños", "Flores coloridas para celebrar.", 30, "flores", "https://i.ibb.co/JWrL25sj/e0f7441121088ac782f4a42bd1823a53.jpg"], // 👉 Ramo de Cumpleanos - CAMBIA SOLO EL LINK
+    ["Globo Feliz cumpleaños ", "Globo decorativo de celebracion.", 18, "globos", "https://i.ibb.co/39xpSWhg/b2540490d0e260e90ab127b841fefe78.jpg"], // 👉 Globo Feliz Cumpleanos - CAMBIA SOLO EL LINK
+    ["Caja de Cumpleaños", "Flores y detalles especiales.", 42, "cajas", "https://i.ibb.co/NdDzPfVK/f1c0a6e09a1926e2570e6d91fab81db7.jpg"], // 👉 Caja de Cumpleanos - CAMBIA SOLO EL LINK
+    ["Sorpresa con Globos", "Un regalo alegre y original.", 35, "globos", "https://i.ibb.co/1tzwFSrN/efc4309d321f3f2cfee872ff50d76b72.jpg"], // 👉 Sorpresa con Globos - CAMBIA SOLO EL LINK
+    ["Ramo Premium", "Un arreglo para un dia inolvidable.", 48, "rosas", "https://i.ibb.co/qY6Hk6D0/e119e4496eed075f7bb931d706bf8c16.jpg"], // 👉 Ramo Premium - CAMBIA SOLO EL LINK
+    ["Caja con Chocolates", "Un detalle dulce para regalar.", 40, "regalos", "https://i.ibb.co/nNzPJ4gC/04bd6719862a24061de924eafbb344ac.jpg"]  // 👉 Caja con Chocolates - CAMBIA SOLO EL LINK
+  ]},
+  regalos:{titulo:"Regalos Especiales",descripcion:"Encuentra detalles originales para sorprender.",productos:[
+    ["Flores con Peluche", "Ramo floral acompanado de peluche.", 38, "regalos", "https://i.ibb.co/fGP5YdCv/04ad3820b393824fb418412db6c7c923.jpg"], // 👉 Flores con Peluche - CAMBIA SOLO EL LINK
+    ["Caja con Chocolates", "Flores y chocolates seleccionados.", 42, "regalos", "https://i.ibb.co/9HwGRY82/68d485b5b9ec2f799b023fdfc38d8ee1.jpg"], // 👉 Caja con Chocolates - CAMBIA SOLO EL LINK
+    ["Ramo Romantico", "Un regalo para expresar amor.", 35, "rosas", "https://i.ibb.co/KpHDvT7b/23d789df25e2b905407ad9e96be4e019.jpg"], // 👉 Ramo Romantico - CAMBIA SOLO EL LINK
+    ["Globo Sorpresa", "Globo decorativo con mensaje.", 20, "globos", "https://i.ibb.co/TzBdtf9/494668412aabb9edbf587b465159092d.jpg"], // 👉 Globo Sorpresa - CAMBIA SOLO EL LINK
+    ["Caja de Regalo Premium", "Un detalle elegante y especial.", 50, "cajas", "https://i.ibb.co/rfQGZD0H/e16417861a45ab44fd0b17da1c04576c.jpg"], // 👉 Caja de Regalo Premium - CAMBIA SOLO EL LINK
+    ["Ramo de Flores", "Flores frescas para regalar.", 28, "flores", "https://i.ibb.co/F49tBbpK/c6ba12874048f441cdff66ab20177399.jpg"]  // 👉 Ramo de Flores - CAMBIA SOLO EL LINK
+  ]}
+};;
+const destacados=[["Arreglo Floral Especial","Hermoso ramo de flores frescas y coloridas.",30,"flores"   ],["Ramo de Rosas Rojas","36 rosas rojas con presentacion elegante.",45,"rosas"],["Ramillete de Rosas","Un detalle para sorprender.",25,"rosas" ],["Ramo de Tulipanes","Flores delicadas en tonos suaves.",22,"tulipanes"],["Arreglo Mixto","Una combinacion de flores para cualquier ocasion.",35,"flores"],["Caja de Rosas Rojas","Rosas rojas en una caja elegante.",40,"cajas"]];
+let productosActuales=[];let productoSeleccionado=null;let cantidadDetalle=1;let carrito=[];
+try{carrito=JSON.parse(localStorage.getItem("valleyCarrito"))||[]}catch(e){carrito=[]}
+function guardarCarrito(){localStorage.setItem("valleyCarrito",JSON.stringify(carrito));actualizarContador()}
+function actualizarContador(){document.getElementById("contador").textContent=carrito.reduce((s,p)=>s+p.cantidad,0)}
+function crearTarjeta(producto){const[nombre,descripcion,precio,tipo]=producto;const enlace="?producto="+encodeURIComponent(nombre);const imagen=(producto[4]||imagenes[tipo])||SIN_IMAGEN;return '<article class="producto"><a href="'+enlace+'"><img src="'+imagen+'" alt="'+nombre+'" loading="lazy"></a><div class="producto-info"><h4>'+nombre+'</h4><p>'+descripcion+'</p>'+detalleCortoHTML(tipo,nombre)+'<a class="ver-detalles" href="'+enlace+'">Ver detalles</a><span class="precio">$'+precio.toFixed(2)+'</span><button class="comprar" onclick="location.href=\''+enlace+'\'">Comprar</button></div></article>'}
+let indice2en2=0;let totalPaginas2en2=Math.ceil(destacados.length/2);
+document.getElementById("masVendidos").innerHTML=destacados.map(crearTarjeta).join("");
+document.getElementById("puntos2en2").innerHTML=Array.from({length:totalPaginas2en2},(_,i)=>'<span class="'+(i===0?'activo':'')+'"></span>').join("");
+function mover2en2(){var track=document.getElementById("masVendidos");if(!track)return;indice2en2++;if(indice2en2>=totalPaginas2en2){indice2en2=0}var anchoPagina=track.clientWidth+18;track.style.transform="translateX(-"+(indice2en2*anchoPagina)+"px)";document.querySelectorAll("#puntos2en2 span").forEach((p,i)=>p.classList.toggle("activo",i===indice2en2))}
+setInterval(mover2en2,5000);
+function abrirCatalogo(){const categoria=new URLSearchParams(location.search).get("categoria");if(!categoria||!catalogos[categoria])return;document.getElementById("paginaPrincipal").style.display="none";document.getElementById("paginaCatalogo").style.display="block";const datos=catalogos[categoria];document.title=datos.titulo+" | Valley of Roses";document.getElementById("tituloCatalogo").textContent=datos.titulo;document.getElementById("descripcionCatalogo").textContent=datos.descripcion;productosActuales=datos.productos;mostrarProductos(productosActuales);window.scrollTo(0,0)}
+function mostrarProductos(lista){const contenedor=document.getElementById("productosCatalogo");if(!lista.length){contenedor.innerHTML='<p>No encontramos productos con ese filtro.</p>';return}contenedor.innerHTML=lista.map(crearTarjeta).join("")}
+function filtrar(tipo,boton){document.querySelectorAll(".filtros button").forEach(b=>b.classList.remove("activo"));boton.classList.add("activo");let resultado=productosActuales;if(tipo==="economico")resultado=productosActuales.filter(p=>p[2]<=30);if(tipo==="premium")resultado=productosActuales.filter(p=>p[2]>30);mostrarProductos(resultado)}
+function todosLosProductos(){let lista=[...destacados];Object.values(catalogos).forEach(cat=>lista.push(...cat.productos));return lista}
+function abrirProducto(){const nombre=new URLSearchParams(location.search).get("producto");if(!nombre)return;const producto=todosLosProductos().find(p=>p[0]===nombre);if(!producto)return;productoSeleccionado=producto;const[titulo,descripcion,precio,tipo]=producto;document.getElementById("paginaPrincipal").style.display="none";document.getElementById("paginaCatalogo").style.display="none";document.getElementById("paginaProducto").style.display="block";document.title=titulo+" | Valley of Roses";document.getElementById("detalleNombre").textContent=titulo;document.getElementById("detallePrecio").textContent="$"+precio.toFixed(2);document.getElementById("detalleImagen").src=(producto[4]||imagenes[tipo])||SIN_IMAGEN;document.getElementById("detalleImagen").alt=titulo;document.getElementById("detalleDescripcion").textContent=descripcion+" Este producto es preparado con dedicacion para que puedas regalar un detalle especial.";document.getElementById("detalleCodigo").textContent="Codigo: VR-"+titulo.substring(0,3).toUpperCase();var det=detallesDe(tipo,titulo);document.getElementById("detallesProductoLista").innerHTML='<li><b>Incluye</b><span>'+det.Incluye+'</span></li><li><b>Tamano</b><span>'+det.Tamano+'</span></li><li><b>Entrega</b><span>'+det.Entrega+'</span></li><li><b>Cuidado</b><span>'+det.Cuidado+'</span></li><li><b>Ocasion</b><span>'+det.Ocasion+'</span></li>';cantidadDetalle=1;document.getElementById("cantidadDetalle").textContent=1;window.scrollTo(0,0)}
+function cambiarCantidad(cambio){cantidadDetalle=Math.max(1,Math.min(20,cantidadDetalle+cambio));document.getElementById("cantidadDetalle").textContent=cantidadDetalle}
+function obtenerPersonalizacion(){const sinDedicatoria=document.getElementById("sinDedicatoria").checked;return{color:document.getElementById("colorProducto").value,personalizado:document.getElementById("nombrePersonalizado").value.trim(),dedicatoria:sinDedicatoria?"Sin dedicatoria":document.getElementById("dedicatoria").value.trim(),firma:document.getElementById("firma").value.trim(),anonimo:document.getElementById("anonimo").checked}}
+function comprarProducto(){if(!productoSeleccionado)return;const[nombre,descripcion,precio,tipo]=productoSeleccionado;carrito.push({nombre,precio,tipo,cantidad:cantidadDetalle,...obtenerPersonalizacion()});guardarCarrito();alert("Producto agregado correctamente a tu carrito!");mostrarCarrito()}
+function mostrarCarrito(){const modal=document.getElementById("modalCarrito");const contenido=document.getElementById("contenidoCarrito");modal.classList.add("abierto");if(!carrito.length){contenido.innerHTML='<div class="carrito-vacio"><h3>Tu carrito esta vacio</h3><p>Explora nuestro catalogo y encuentra tu detalle favorito!</p><br><a class="btn" href="index.html#tienda">Ver productos</a></div>';return}let total=0;let html="";carrito.forEach((item,index)=>{const subtotal=item.precio*item.cantidad;total+=subtotal;html+='<div class="item-carrito"><img src="'+((imagenes[item.tipo]||SIN_IMAGEN))+'" alt="'+item.nombre+'"><div><h4>'+item.nombre+'</h4><p>$'+item.precio.toFixed(2)+' x '+item.cantidad+'</p><p>'+(item.color||"")+'</p></div><button class="eliminar" onclick="eliminarDelCarrito('+index+')">Quitar</button></div>'});html+='<div class="total-carrito"><span>Total</span><span>$'+total.toFixed(2)+'</span></div><button class="btn-comprar-carrito" onclick="finalizarCompra()">Comprar</button>';contenido.innerHTML=html}
+function eliminarDelCarrito(indice){carrito.splice(indice,1);guardarCarrito();mostrarCarrito()}
+function cerrarCarrito(){document.getElementById("modalCarrito").classList.remove("abierto")}
+function cerrarSiFondo(event){if(event.target.id==="modalCarrito")cerrarCarrito()}
+function finalizarCompra(){if(!carrito.length)return;document.getElementById("paginaPrincipal").style.display="none";document.getElementById("paginaCatalogo").style.display="none";document.getElementById("paginaProducto").style.display="none";document.getElementById("modalCarrito").classList.remove("abierto");document.getElementById("paginaComplementos").style.display="block";mostrarComplementos('todos');actualizarBarraCesta();window.scrollTo(0,0)}
+
+/* =============================================
+   🖼️ IMAGENES DE COMPLEMENTOS - TODO SEPARADO
+   Para cambiar una imagen: borra solo el link de esa línea
+   y pega tu link nuevo. No toques lo demás.
+   Formato: ["Nombre", precio, "categoria", "LINK DE LA IMAGEN", true/false]
+   ============================================= */
+const complementos=[
+  ["GB04 MiniGlobos de 4 pulgadas", 1.61, "globos", "https://i.ibb.co/q3Hfzy2F/2c59f5f1826cf22349b1f7e37a8cc4ca.jpg", true], // 👉 GB04 MiniGlobos de 4 pulgadas - CAMBIA SOLO EL LINK
+  ["Globo Love", 2.68, "globos", "https://i.ibb.co/WNnY8zmr/62ff7009858fd4db09f9d45d90d7c688.jpg", true], // 👉 Globo Love - CAMBIA SOLO EL LINK
+  ["Raffaello T3", 2.68, "chocolates", "https://i.ibb.co/Hf4fvF9N/027210c376fa58741f2cd8f228db2b37.jpg", false], // 👉 Raffaello T3 - CAMBIA SOLO EL LINK
+  ["9 Globo Dia de las Madres", 3.21, "globos", "https://i.ibb.co/dJP5Rhqk/4dbd2fa1a2b2fc13d086f36d61e51c89.jpg", false], // 👉 9 Globo Dia de las Madres - CAMBIA SOLO EL LINK
+  ["GB08 Globo de 9 Pulgadas", 3.21, "globos", "https://i.ibb.co/CppcsyDY/c6e9bb8d26fdc61294f85bd2c87f992d.jpg", true], // 👉 GB08 Globo de 9 Pulgadas - CAMBIA SOLO EL LINK
+  ["Globo Feliz Dia del Padre 9 pulgadas", 3.21, "globos", "https://i.ibb.co/6chLXgDv/cbe10245a2761b4ca2eef64a5daa8af0.jpg", false], // 👉 Globo Feliz Dia del Padre 9 pulgadas - CAMBIA SOLO EL LINK
+  ["Globo Graduacion 9 pulgadas", 3.21, "globos", "https://i.ibb.co/k2Zhkgvt/fccd8ee91defa96956df753afa738b2e.jpg", false], // 👉 Globo Graduacion 9 pulgadas - CAMBIA SOLO EL LINK
+  ["Globo Nacimiento 9", 3.21, "globos", "https://i.ibb.co/kgyDpPvd/65354e60ff5e21cbd3007b8d70728375.jpg", true], // 👉 Globo Nacimiento 9 - CAMBIA SOLO EL LINK
+  ["53401 Tarjeta San Valentin", 3.75, "tarjetas", "https://i.ibb.co/9mWz15Ys/5fb3b43b0244dc17271b732b0fceab35.jpg", true], // 👉 53401 Tarjeta San Valentin - CAMBIA SOLO EL LINK
+ 
+];
+let filtroComplementoActual='todos';
+function mostrarComplementos(filtro){filtroComplementoActual=filtro;const grid=document.getElementById("gridComplementos");const lista=complementos.filter(c=>filtro==='todos'||c[2]===filtro);grid.innerHTML=lista.map((c)=>{const idx=complementos.indexOf(c);const ya=carrito.some(item=>item.nombre===c[0]);if(ya){return '<div class="card-complemento"><img src="'+(c[3]||SIN_IMAGEN)+'" alt="'+c[0]+'"><div class="card-complemento-info"><h4>'+c[0]+'</h4><span class="precio-comp">$'+c[1].toFixed(2)+'</span><button class="btn-agregado" onclick="toggleComplemento('+idx+')">Agregado</button></div></div>'}return '<div class="card-complemento"><img src="'+(c[3]||SIN_IMAGEN)+'" alt="'+c[0]+'"><div class="card-complemento-info"><h4>'+c[0]+'</h4><span class="precio-comp">$'+c[1].toFixed(2)+'</span>'+(c[4]?'<button class="btn-opciones-comp" onclick="abrirOpciones('+idx+')">Elegir Opciones</button>':'<button class="btn-agregar-comp" onclick="toggleComplemento('+idx+')">+ Agregar</button>')+'</div></div>'}).join("")}
+function toggleComplemento(idx){const c=complementos[idx];const pos=carrito.findIndex(item=>item.nombre===c[0]);if(pos>=0){carrito.splice(pos,1);guardarCarrito();actualizarBarraCesta();mostrarComplementos(filtroComplementoActual);return}if(c[4]){abrirOpciones(idx);return}agregarComplemento(idx)}
+let opcionSeleccionada=null;
+function abrirOpciones(idx){opcionSeleccionada=idx;const c=complementos[idx];document.getElementById("opImg").src=c[3];document.getElementById("opNombre").textContent=c[0];document.getElementById("opPrecio").textContent="$"+c[1].toFixed(2);document.getElementById("opFirma").value="";document.getElementById("opAnonimo").checked=false;document.getElementById("modalOpciones").classList.add("abierto")}
+function cerrarOpciones(){document.getElementById("modalOpciones").classList.remove("abierto");opcionSeleccionada=null}
+function agregarConOpciones(){if(opcionSeleccionada===null)return;const c=complementos[opcionSeleccionada];const anonimo=document.getElementById("opAnonimo").checked;let firma=document.getElementById("opFirma").value.trim();if(anonimo)firma="Anonimo";if(!firma){alert("Escribe tu firma o marca Anonimo para continuar.");return}carrito.push({nombre:c[0],precio:c[1],tipo:"flores",cantidad:1,color:"Complemento",firma:firma,anonimo:anonimo});guardarCarrito();actualizarBarraCesta();cerrarOpciones();mostrarComplementos(filtroComplementoActual)}
+function filtrarComplementos(tipo,boton){document.querySelectorAll("#filtrosComplementos button").forEach(b=>b.classList.remove("activo"));boton.classList.add("activo");mostrarComplementos(tipo)}
+function agregarComplemento(idx){const c=complementos[idx];carrito.push({nombre:c[0],precio:c[1],tipo:"flores",cantidad:1,color:"Complemento"});guardarCarrito();actualizarBarraCesta();mostrarComplementos(filtroComplementoActual)}
+function actualizarBarraCesta(){const total=carrito.reduce((s,p)=>s+p.precio*p.cantidad,0);const cant=carrito.reduce((s,p)=>s+p.cantidad,0);document.getElementById("cestaCantidad").textContent=cant;document.getElementById("cestaTotal").textContent="$"+total.toFixed(2);document.getElementById("barraCesta").classList.toggle("visible",document.getElementById("paginaComplementos").style.display==="block")}
+let tipoEntrega='retiro';let metodoPagoSel='tarjeta';let descuentoCupon=0;let codigoCupon='';
+function irAPagar(){if(!carrito.length)return;document.getElementById("paginaPrincipal").style.display="none";var pc=document.getElementById("paginaCatalogo");if(pc)pc.style.display="none";var pp=document.getElementById("paginaProducto");if(pp)pp.style.display="none";document.getElementById("paginaComplementos").style.display="none";document.getElementById("barraCesta").classList.remove("visible");document.getElementById("paginaPago").style.display="block";renderPago();window.scrollTo(0,0)}
+function cambiarTabPago(tipo,btn){document.querySelectorAll('#pagoTabs button').forEach(b=>b.classList.remove('activo'));btn.classList.add('activo');if(tipo==='registro'){abrirModalCuenta()}if(tipo==='login'){alert('Proximamente: pagina de acceso')}}
+function elegirEntrega(tipo){tipoEntrega=tipo;document.getElementById('opEnvioDomicilio').classList.toggle('sel',tipo==='domicilio');document.getElementById('opRetiroTienda').classList.toggle('sel',tipo==='retiro');document.getElementById('boxDireccionEntrega').style.display=tipo==='domicilio'?'block':'none';document.getElementById('boxOpcionRetiro').style.display=tipo==='retiro'?'block':'none';document.getElementById('boxOpcionDomicilio').style.display=tipo==='domicilio'?'block':'none';document.getElementById('pagoLabelHora').textContent=tipo==='domicilio'?'Hora aproximada de entrega:':'Hora aproximada de retiro:';renderPago()}
+function elegirMetodoPago(metodo,el){metodoPagoSel=metodo;document.querySelectorAll('.pago-metodo').forEach(m=>m.classList.remove('sel'));el.classList.add('sel');el.querySelector('input').checked=true;['Tarjeta','Yappy','Paypal','Transferencia','Contra'].forEach(k=>{var b=document.getElementById('boxMetodo'+k);if(b)b.style.display='none'});var mapa={tarjeta:'Tarjeta',yappy:'Yappy',paypal:'Paypal',transferencia:'Transferencia',contraentrega:'Contra'};var b=document.getElementById('boxMetodo'+mapa[metodo]);if(b)b.style.display='block'}
+function cambiarCantidadPago(idx,delta){carrito[idx].cantidad=Math.max(1,Math.min(20,carrito[idx].cantidad+delta));guardarCarrito();renderPago()}
+function quitarDePago(idx){carrito.splice(idx,1);guardarCarrito();if(!carrito.length){volverATienda();return}renderPago()}
+function aplicarCupon(){var c=document.getElementById('pagoCupon').value.trim().toUpperCase();var msg=document.getElementById('pagoCuponMsg');if(c==='ROSES10'||c==='VALLEY10'){descuentoCupon=0.10;codigoCupon=c;msg.textContent='Cupon aplicado: 10% de descuento ('+c+')';msg.style.color='#28a745'}else if(c==='BIENVENIDO5'){descuentoCupon=0.05;codigoCupon=c;msg.textContent='Cupon aplicado: 5% de descuento ('+c+')';msg.style.color='#28a745'}else if(!c){descuentoCupon=0;codigoCupon='';msg.textContent=''}else{descuentoCupon=0;codigoCupon='';msg.textContent='Ese codigo no es valido. Prueba con ROSES10';msg.style.color='#103f34'}renderPago()}
+function calcularTotalesPago(){var sub=carrito.reduce((s,p)=>s+p.precio*p.cantidad,0);var desc=sub*descuentoCupon;var base=sub-desc;var envio=tipoEntrega==='domicilio'?5:0;var itbms=base*0.07;var total=base+envio+itbms;return{sub:sub,desc:desc,envio:envio,itbms:itbms,total:total}}
+function renderPago(){var tb=document.getElementById('pagoTablaCarro');if(!tb)return;if(!carrito.length){tb.innerHTML='<tr><td colspan=5 style="text-align:center;padding:20px">Tu carro esta vacio</td></tr>'}else{tb.innerHTML=carrito.map((item,idx)=>{var det='';if(item.dedicatoria)det+='Dedicatoria: '+item.dedicatoria+'<br>';if(item.firma)det+='Firma: '+item.firma+'<br>';if(item.color&&item.color!=='Complemento')det+='Color: '+item.color+'<br>';return '<tr><td><img src="'+((imagenes[item.tipo]||SIN_IMAGEN))+'" alt=""></td><td><div class="pago-nombre">'+item.nombre+'</div>'+(det?'<div class="pago-detalle">'+det+'</div>':'')+'</td><td><div class="pago-cant"><button onclick="cambiarCantidadPago('+idx+',-1)">-</button><input value="'+item.cantidad+'" readonly><button onclick="cambiarCantidadPago('+idx+',1)">+</button><button class="pago-quitar" onclick="quitarDePago('+idx+')">x</button></div></td><td>$'+item.precio.toFixed(2)+'</td><td><b>$'+(item.precio*item.cantidad).toFixed(2)+'</b></td></tr>'}).join('')}var tt=calcularTotalesPago();document.getElementById('pagoTotales').innerHTML='<div><span>Sub-Total:</span><span>$'+tt.sub.toFixed(2)+'</span></div>'+(tt.desc?'<div><span>Descuento ('+codigoCupon+'):</span><span style="color:#28a745">-$'+tt.desc.toFixed(2)+'</span></div>':'')+'<div><span>'+(tipoEntrega==='domicilio'?'Envio a domicilio:':'Recoger en tienda:')+'</span><span>$'+tt.envio.toFixed(2)+'</span></div><div><span>ITBMS (7%):</span><span>$'+tt.itbms.toFixed(2)+'</span></div><div class="pago-total-final"><span>Total:</span><span>$'+tt.total.toFixed(2)+'</span></div>'}
+function volverATienda(){document.getElementById('paginaPago').style.display='none';document.getElementById('paginaPrincipal').style.display='block';window.scrollTo(0,0)}
+function confirmarOrden(){var nom=document.getElementById('pagoNombreCliente').value.trim();var ape=document.getElementById('pagoApellidoCliente').value.trim();var em=document.getElementById('pagoEmailCliente').value.trim();var tel=document.getElementById('pagoTelefonoCliente').value.trim();var dia=document.getElementById('pagoDiaEntrega').value;if(!nom||!ape||!em||!tel){alert('Por favor completa Nombre, Apellido, Email y Telefono celular.');return}if(!em.includes('@')){alert('Por favor escribe un Email valido.');return}if(!dia){alert('Por favor elige el Dia de entrega.');return}if(!document.getElementById('pagoTerminos').checked){alert('Debes aceptar los Terminos Y Condiciones para continuar.');return}if(tipoEntrega==='domicilio'){var dir=document.getElementById('pagoDireccion').value.trim();if(!dir){alert('Por favor escribe tu Direccion de entrega.');return}}if(metodoPagoSel==='tarjeta'){var num=document.getElementById('pagoTarjeta').value.trim();var exp=document.getElementById('pagoExpiracion').value.trim();var cvc=document.getElementById('pagoCVC').value.trim();var nomT=document.getElementById('pagoNombreTarjeta').value.trim();if(num.length<15||!exp||cvc.length<3||!nomT){alert('Por favor completa todos los datos de la tarjeta.');return}}var tt=calcularTotalesPago();alert('Orden confirmada! Gracias '+nom+' '+ape+' Total: $'+tt.total.toFixed(2));carrito=[];descuentoCupon=0;codigoCupon='';guardarCarrito();document.getElementById('paginaPago').style.display='none';document.getElementById('paginaPrincipal').style.display='block';window.scrollTo(0,0)}
+function abrirModalCuenta(){document.getElementById("modalCuenta").classList.add("abierto")}
+function cerrarModalCuenta(){document.getElementById("modalCuenta").classList.remove("abierto")}
+function cerrarSiFondoCuenta(event){if(event.target.id==="modalCuenta")cerrarModalCuenta()}
+function enviarFormularioCuenta(e){e.preventDefault();const nombre=document.getElementById("nombreCuenta").value.trim();const apellido=document.getElementById("apellidoCuenta").value.trim();const password=document.getElementById("passwordCuenta").value;const confirmar=document.getElementById("confirmarCuenta").value;if(password!==confirmar){alert("Las contrasenas no coinciden.");return}alert("Cuenta creada con exito! Bienvenido/a "+nombre+" "+apellido+" a Valley of Roses.");cerrarModalCuenta();document.getElementById("formCuenta").reset()}
+function buscarEnVivo(){var input=document.getElementById("busqueda");var caja=document.getElementById("resultadosBusqueda");var texto=input.value.toLowerCase().trim();if(!texto){caja.classList.remove("visible");caja.innerHTML="";return}var lista=todosLosProductos().filter(p=>p[0].toLowerCase().includes(texto)||p[1].toLowerCase().includes(texto)).slice(0,8);if(!lista.length){caja.innerHTML='<div class="fila-busqueda-vacio">No encontramos ese producto.</div>';caja.classList.add("visible");return}caja.innerHTML=lista.map(p=>{var img=(p[4]||imagenes[p[3]])||SIN_IMAGEN;return '<div class="fila-busqueda" onclick="irAProductoBusqueda(\''+p[0].replace(/'/g,"\\'")+'\')"><img src="'+img+'" alt=""><div class="fila-busqueda-info"><b>'+p[0]+'</b><span>'+p[1]+'</span></div><span class="fila-busqueda-precio">$'+p[2].toFixed(2)+'</span></div>'}).join("");caja.classList.add("visible")}
+function irAProductoBusqueda(nombre){document.getElementById("resultadosBusqueda").classList.remove("visible");document.getElementById("busqueda").value="";location.href="?producto="+encodeURIComponent(nombre)}
+document.addEventListener("click",function(e){if(!e.target.closest(".barra-busqueda")){var c=document.getElementById("resultadosBusqueda");if(c)c.classList.remove("visible")}});
+const selDia=document.getElementById("diaCumple");for(let i=1;i<=31;i++){const o=document.createElement("option");o.value=i;o.textContent=i;selDia.appendChild(o)}
+document.getElementById("busqueda").addEventListener("keydown",function(e){if(e.key!=="Enter")return;e.preventDefault();var texto=this.value.toLowerCase().trim();if(!texto)return;var producto=todosLosProductos().find(p=>p[0].toLowerCase().includes(texto));if(producto){irAProductoBusqueda(producto[0]);return}var categoria=Object.keys(catalogos).find(key=>catalogos[key].titulo.toLowerCase().includes(texto));if(categoria){location.href="?categoria="+categoria}else{buscarEnVivo()}});
+var _pd=document.getElementById('pagoDiaCumple');if(_pd){for(let i=1;i<=31;i++){var o=document.createElement('option');o.value=i;o.textContent=i;_pd.appendChild(o)}var _de=document.getElementById('pagoDiaEntrega');if(_de)_de.value=new Date().toISOString().slice(0,10)}
+document.querySelectorAll('img[data-sin-imagen]').forEach(img=>{img.src=SIN_IMAGEN;});
+actualizarContador();abrirProducto();if(!new URLSearchParams(location.search).get("producto"))abrirCatalogo();
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</html>

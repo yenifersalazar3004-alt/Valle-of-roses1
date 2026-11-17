@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto | Valley of Roses</title>
+<style>
+:root{--primario:#103f34;--secundario:#E8F0EB;--fondo:#FAF7F2;--acento:#527c68;--claro:#b8d1bd;--blanco:#fff;--rojo:#c0392b;--rosa:#e84a5f}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:var(--fondo);color:#263d34;line-height:1.7;overflow-x:hidden}
+h1,h2,h3,h4{font-family:Georgia,serif;color:var(--primario)}
+button,input,textarea,select{font:inherit}
+header{background:var(--primario);padding:12px 4%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo img{width:70px;height:80px;object-fit:contain}
+.linea{height:65px;width:2px;background:var(--claro)}
+.nombre h1{color:#fff;font-size:30px;font-weight:normal;line-height:1}
+.nombre p{color:var(--claro);font-size:10px;letter-spacing:4px;margin-top:6px}
+.barra-busqueda{flex:1;max-width:320px;margin:0 15px;position:relative}
+.barra-busqueda input{width:100%;padding:10px 16px;border:none;border-radius:20px;background:rgba(255,255,255,.15);color:#fff;outline:none}
+.barra-busqueda input::placeholder{color:rgba(255,255,255,.7)}
+.iconos{display:flex;align-items:center;gap:10px}
+.icono{width:44px;height:44px;border:1px solid var(--claro);border-radius:50%;background:transparent;color:#fff;display:flex;justify-content:center;align-items:center;cursor:pointer;position:relative;text-decoration:none}
+.icono:hover{background:var(--claro);color:var(--primario)}
+.icono svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.contador{position:absolute;top:-5px;right:-5px;background:var(--claro);color:var(--primario);font-size:10px;font-weight:bold;border-radius:50%;width:18px;height:18px;display:flex;justify-content:center;align-items:center}
+nav{background:#0c342b;padding:.7rem 3%;display:flex;justify-content:center;align-items:center;flex-wrap:wrap}
+nav a{color:#fff;text-decoration:none;padding:0 1.2rem;font-size:15px}
+nav a:hover{color:var(--claro)}
+nav a.activo{color:var(--claro);font-weight:bold}
+/* BANNER COMO LA FOTO */
+.banner-contacto{position:relative;background:#dbeeff;overflow:hidden}
+.banner-contacto img{width:100%;height:220px;object-fit:cover;display:block}
+.banner-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(219,238,255,.95) 0%,rgba(219,238,255,.55) 45%,rgba(219,238,255,0) 70%);display:flex;align-items:center;justify-content:center}
+.breadcrumb{font-size:13px;color:#333;display:flex;gap:8px;align-items:center;justify-content:center}
+.breadcrumb b{color:#111}
+/* CONTENIDO */
+.contacto-wrap{max-width:780px;margin:auto;padding:28px 5% 30px}
+.contacto-titulo{font-size:28px;color:#222;margin-bottom:6px}
+.linea-roja{width:42px;height:3px;background:var(--rosa);border-radius:3px;margin:8px 0 16px}
+.contacto-intro{font-size:14px;color:#777;line-height:1.7;margin-bottom:22px}
+.card-contacto{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(16,63,52,.08);padding:24px 22px}
+.card-contacto h3{font-family:Arial,sans-serif;font-size:17px;color:#222;font-weight:600;margin-bottom:18px}
+.fila-contacto{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0f0;align-items:flex-start}
+.fila-contacto:last-of-type{border-bottom:0}
+.icono-contacto{width:32px;height:32px;min-width:32px;border-radius:50%;background:#fdf0f2;display:flex;align-items:center;justify-content:center;font-size:15px}
+.fila-contacto small{font-size:11px;letter-spacing:1px;color:#999;text-transform:uppercase;display:block;margin-bottom:3px}
+.fila-contacto b{font-size:14px;color:#222;line-height:1.5;display:block}
+.fila-contacto span{font-size:14px;color:#222}
+.horario-titulo{font-size:14px;font-weight:bold;color:#222;margin:20px 0 12px;display:flex;gap:6px;align-items:center}
+.horario-tabla{width:100%;border-collapse:separate;border-spacing:0 6px;font-size:13px}
+.horario-tabla td{background:#fbfbfb;padding:11px 12px;color:#222}
+.horario-tabla td:first-child{border-radius:8px 0 0 8px;font-weight:600}
+.horario-tabla td:last-child{border-radius:0 8px 8px 0;text-align:right;color:#666}
+.btn-whatsapp{display:block;text-align:center;background:#25D366;color:#fff;text-decoration:none;padding:13px;border-radius:25px;font-weight:bold;font-size:14px;margin-top:18px}
+.btn-whatsapp:hover{background:#1eb85a}
+.btn-correo{display:block;text-align:center;background:var(--rosa);color:#fff;text-decoration:none;padding:13px;border-radius:25px;font-weight:bold;font-size:14px;margin-top:10px}
+.btn-correo:hover{background:#d13a4e}
+.btn-llamar{display:block;text-align:center;background:#fff;color:#222;text-decoration:none;padding:12px;border-radius:25px;font-weight:600;font-size:14px;margin-top:10px;border:1px solid #e5e5e5}
+.btn-llamar:hover{background:#f7f7f7}
+.siguenos{display:flex;align-items:center;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid #f0f0f0;font-size:13px;color:#999}
+.siguenos a{width:32px;height:32px;border-radius:50%;background:#f5f5f5;color:#222;display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:bold;font-size:13px}
+.siguenos a:hover{background:var(--primario);color:#fff}
+/* FORMULARIO */
+.form-contacto{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(16,63,52,.08);padding:24px 22px;margin-top:20px}
+.form-contacto h3{font-family:Arial,sans-serif;font-size:17px;color:#222;margin-bottom:6px}
+.form-contacto p{font-size:13px;color:#777;margin-bottom:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.campo{margin-bottom:12px}
+.campo label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}
+.campo label b{color:var(--rosa)}
+.campo input,.campo textarea,.campo select{width:100%;border:1px solid #e3e3e3;border-radius:9px;padding:11px 12px;outline:none;font-size:14px;background:#fff}
+.campo textarea{height:110px;resize:vertical}
+.campo input:focus,.campo textarea:focus{border-color:var(--acento)}
+.btn-enviar{width:100%;background:var(--primario);color:#fff;border:0;padding:14px;border-radius:25px;cursor:pointer;font-weight:bold;font-size:15px;margin-top:6px}
+.btn-enviar:hover{background:var(--acento)}
+/* MAPA */
+.mapa-box{margin-top:20px;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(16,63,52,.08);position:relative;background:#fff}
+.mapa-box iframe{width:100%;height:340px;border:0;display:block}
+.btn-llegar{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:#fff;color:#222;text-decoration:none;padding:10px 16px;border-radius:25px;font-size:13px;font-weight:bold;box-shadow:0 4px 16px rgba(0,0,0,.2);white-space:nowrap}
+.btn-llegar:hover{background:var(--primario);color:#fff}
+footer{background:#0b211a;color:#d6e3d9;padding:45px 7% 20px;margin-top:40px}
+.footer-contenido{max-width:1100px;margin:auto;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px}
+.footer-logo{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.footer-logo img{width:55px;height:60px;object-fit:contain}
+.footer-logo h3{color:#fff;font-size:22px}
+.footer-columna h4{color:#fff;font-size:14px;margin-bottom:14px}
+.footer-columna p,.footer-columna a{display:block;color:#bdccc2;text-decoration:none;font-size:13px;margin-bottom:9px}
+.footer-final{text-align:center;border-top:1px solid rgba(255,255,255,.15);padding-top:18px;margin-top:35px;font-size:12px}
+.btn-flotante{position:fixed;right:16px;bottom:16px;width:52px;height:52px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:24px;box-shadow:0 6px 20px rgba(0,0,0,.25);z-index:200}
+@media(max-width:900px){.barra-busqueda{order:3;width:100%;max-width:100%;margin:10px 0 0}.footer-contenido{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){header{padding:10px 3%;gap:8px}.logo img{width:48px;height:58px}.linea{height:50px}.nombre h1{font-size:21px}.nombre p{font-size:8px;letter-spacing:3px}.iconos{gap:5px}.icono{width:36px;height:36px}.icono svg{width:17px;height:17px}nav{padding:12px 2px;gap:4px}nav a{padding:0 8px;font-size:12px}.banner-contacto img{height:170px}.contacto-wrap{padding:22px 5% 20px}.form-grid{grid-template-columns:1fr}.footer-contenido{grid-template-columns:1fr;gap:25px}.mapa-box iframe{height:280px}}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html" class="logo"><img src="https://i.ibb.co/MyGYNwY6/Isolated-Ivory-Rose-Stem.png" alt="Valley of Roses"><div class="linea"></div><div class="nombre"><h1>Valley<br>of Roses</h1><p>FLORISTERIA</p></div></a>
+<div class="barra-busqueda"><input type="text" placeholder="Buscar flores, globos, regalos..." onkeydown="if(event.key==='Enter'){location.href='index.html?categoria='+encodeURIComponent(this.value)}"></div>
+<div class="iconos">
+<a href="Valle-of-roses2.html" class="icono" title="Inicio"><svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9 21v-7h6v7"/></svg></a>
+<a href="index.html" class="icono" title="Carrito"><svg viewBox="0 0 24 24"><path d="M2 3h2l2.5 13h12L21 7H5"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg><span class="contador">0</span></a>
+<a href="contacto.html" class="icono" title="Cuenta"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg></a>
+</div>
+</header>
+<nav><a href="Valle-of-roses2.html">Inicio</a><a href="index.html#categorias">Categorias</a><a href="contacto.html" class="activo">Contacto</a></nav>
+
+<section class="banner-contacto">
+<img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=1200" alt="Regalo Valley of Roses">
+<div class="banner-overlay"><div class="breadcrumb">Inicio &nbsp;/&nbsp; <b>Contáctenos</b></div></div>
+</section>
+
+<main class="contacto-wrap">
+<h2 class="contacto-titulo">Contáctenos</h2>
+<div class="linea-roja"></div>
+<p class="contacto-intro">Estamos para ayudarte con tu pedido, entregas y arreglos especiales. Escríbenos o visítanos en nuestra floristería.</p>
+
+<div class="card-contacto">
+<h3>Valley of Roses</h3>
+
+<div class="fila-contacto">
+<div class="icono-contacto">📍</div>
+<div><small>Dirección</small><b>Calle 44 Bella Vista, Edificio 4-154, Local 1<br>Ciudad de Panamá</b></div>
+</div>
+
+<div class="fila-contacto">
+<div class="icono-contacto">📞</div>
+<div><small>Teléfonos</small><b>+507 225-5368 &nbsp;/&nbsp; +507 225-5369</b></div>
+</div>
+
+<div class="fila-contacto">
+<div class="icono-contacto">💬</div>
+<div><small>WhatsApp</small><b>+507 6554-1308</b></div>
+</div>
+
+<div class="fila-contacto">
+<div class="icono-contacto">✉️</div>
+<div><small>Correo</small><b>ventas@valleyofroses.com</b></div>
+</div>
+
+<div class="horario-titulo">🕐 Horario de atención</div>
+<table class="horario-tabla">
+<tr><td>Lunes a Viernes</td><td>8:00 am - 6:00 pm</td></tr>
+<tr><td>Sábado</td><td>8:00 am - 5:00 pm</td></tr>
+<tr><td>Domingo</td><td>10:00 am - 2:00 pm</td></tr>
+<tr><td>Días feriados</td><td>Por WhatsApp: +507 6554-1308</td></tr>
+</table>
+
+<a class="btn-whatsapp" href="https://wa.me/50765541308?text=Hola%20Valley%20of%20Roses%2C%20quiero%20hacer%20un%20pedido" target="_blank">💬 &nbsp;Escríbenos por WhatsApp</a>
+<a class="btn-correo" href="mailto:ventas@valleyofroses.com?subject=Quiero%20hacer%20un%20pedido%20-%20Valley%20of%20Roses">✉️ &nbsp;Envíanos un correo</a>
+<a class="btn-llamar" href="tel:+5072255368">📞 &nbsp;Llamar</a>
+
+<div class="siguenos">Síguenos
+<a href="#" title="Facebook">f</a>
+<a href="#" title="Instagram">◎</a>
+<a href="#" title="X">X</a>
+<a href="#" title="YouTube">▶</a>
+</div>
+</div>
+
+<div class="form-contacto">
+<h3>Escríbenos un mensaje</h3>
+<p>Cuéntanos qué arreglo quieres y te ayudamos a prepararlo.</p>
+<form onsubmit="enviarContacto(event)">
+<div class="form-grid">
+<div class="campo"><label>Nombre <b>*</b></label><input id="cNombre" required placeholder="Tu nombre"></div>
+<div class="campo"><label>Teléfono <b>*</b></label><input id="cTelefono" required placeholder="Ej.: 6000-0000"></div>
+</div>
+<div class="campo"><label>Correo <b>*</b></label><input id="cCorreo" type="email" required placeholder="tu@correo.com"></div>
+<div class="campo"><label>¿Qué necesitas?</label><select id="cAsunto"><option>Quiero hacer un pedido</option><option>Consultar entrega</option><option>Arreglo personalizado</option><option>Otro</option></select></div>
+<div class="campo"><label>Mensaje <b>*</b></label><textarea id="cMensaje" required placeholder="Escribe aquí tu mensaje..."></textarea></div>
+<button class="btn-enviar" type="submit">Enviar mensaje</button>
+</form>
+</div>
+
+<div class="mapa-box">
+<iframe src="https://www.google.com/maps?q=Calle%2044%20Bella%20Vista%20Panama&output=embed" loading="lazy" title="Mapa Valley of Roses"></iframe>
+<a class="btn-llegar" href="https://www.google.com/maps/dir/?api=1&destination=Calle+44+Bella+Vista+Panama" target="_blank">📍 Cómo llegar</a>
+</div>
+</main>
+
+<footer>
+<div class="footer-contenido">
+<div class="footer-columna"><div class="footer-logo"><img src="https://i.ibb.co/MyGYNwY6/Isolated-Ivory-Rose-Stem.png" alt="Logo"><h3>Valley of Roses</h3></div><p>Floristería dedicada a crear detalles únicos para cada momento especial.</p></div>
+<div class="footer-columna"><h4>INFORMACIÓN</h4><a href="index.html">Inicio</a><a href="index.html#tienda">Nuestra tienda</a><a href="index.html#bienvenida">Nosotros</a><a href="contacto.html">Contacto</a></div>
+<div class="footer-columna"><h4>CONTACTO</h4><p>Calle 44 Bella Vista, Edificio 4-154, Local 1</p><p>+507 225-5368 / +507 225-5369</p><p>ventas@valleyofroses.com</p></div>
+</div>
+<div class="footer-final">2026 Valley of Roses | Floristería. Todos los derechos reservados.</div>
+</footer>
+
+<a class="btn-flotante" href="https://wa.me/50765541308?text=Hola%20Valley%20of%20Roses" target="_blank">💬</a>
+
+<script>
+function enviarContacto(e){
+e.preventDefault();
+var nombre=document.getElementById('cNombre').value.trim();
+var tel=document.getElementById('cTelefono').value.trim();
+var correo=document.getElementById('cCorreo').value.trim();
+var asunto=document.getElementById('cAsunto').value;
+var msg=document.getElementById('cMensaje').value.trim();
+if(!nombre||!tel||!correo||!msg){alert('Por favor completa todos los campos.');return;}
+var texto='Hola Valley of Roses, soy '+nombre+'. '+asunto+'. '+msg+' Mi teléfono es '+tel+' y mi correo es '+correo;
+window.open('https://wa.me/50765541308?text='+encodeURIComponent(texto),'_blank');
+alert('¡Gracias '+nombre+'! Tu mensaje se envió por WhatsApp. Te respondemos pronto.');
+e.target.reset();
+}
+</script>
+</body>
+</html>
